@@ -12,28 +12,28 @@ export class Player {
     let newHead = this.head;
     switch(newHead.direction) {
       case 'left':
-        //newHead.x -= this.speed;
+        newHead.x -= this.speed;
         camera.x += this.speed;
         break;
       case 'right':
-        //newHead.x += this.speed;;
+        newHead.x += this.speed;;
         camera.x -= this.speed;
         break;
       case 'down':
-        //newHead.y += this.speed;;
+        newHead.y += this.speed;;
         camera.y -= this.speed;
         break;
       case 'down':
-        //newHead.y -= this.speed;;
+        newHead.y -= this.speed;;
         camera.y += this.speed;
         break;
       default:
         break;
     }
-    if(newHead.x < 0) {
+    /*if(newHead.x < 0) {
         newHead.x = 200-this.size;
-    }
+    }*/
     this.body.unshift(newHead);
-    this.body.pop();
+    //this.body.pop();
   }
 }

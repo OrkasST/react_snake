@@ -10,7 +10,7 @@ const start = (e) => {
   let screen = new Screen(viewArea, ctx);
   let camera = new Camera();
   Game(camera, screen, {player});
-  setInterval( () => { Game(screen, {player}) }, 1000)
+  setInterval( () => { Game(camera, screen, {player}) }, 1000)
   if(player && screen && ctx) {
     alert('start data created');
   }

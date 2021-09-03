@@ -18,6 +18,18 @@ export class Screen {
     }
     this.ctx.closePath();
   }
+  drawPlayer(camera, player) {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = player.color;
+    player.body.forEach( (part, i) => {
+      if(i !== 0) {
+        this.ctx.fillRect(part.x + camera.x, part.y + camera.y, player.size, player.size);
+      } else {
+        this.ctx.fillRect(part.x, part.y, player.size, player.size);
+      }
+    });
+    this.ctx.closePath();
+  }
   clear() {
     this.ctx.fillStyle = '#000000';
     this.ctx.clearRect(0, 0, this.width, this.height);

@@ -10,4 +10,5 @@ const update = (camera, data) => {
 export const Game = (camera, screen, data) => {
   update(camera, data);
   render(camera, screen, data);
+  alert(data.player.body);
 }
