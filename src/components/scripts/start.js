@@ -2,6 +2,7 @@ import { Player } from './Player';
 import { Screen } from './Screen';
 import { Game } from './Game';
 import { Camera } from './Camera';
+import { Cube } from './Cube';
 
 const start = (e) => {
   let player = new Player();
@@ -9,8 +10,9 @@ const start = (e) => {
   let ctx = viewArea.getContext('2d');
   let screen = new Screen(viewArea, ctx);
   let camera = new Camera();
-  Game(camera, screen, {player});
-  setInterval( () => { Game(camera, screen, {player}) }, 1000)
+  let cube = new Cube();
+  Game(camera, screen, {player, cube});
+  setInterval( () => { Game(camera, screen, {player, cube}) }, 1000)
   if(player && screen && ctx) {
     alert('start data created');
   }

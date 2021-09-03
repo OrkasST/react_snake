@@ -8,32 +8,36 @@ export class Player {
     this.headColor = headColor;
   }
 
-  update(camera) {
-    let newHead = this.head;
-    switch(newHead.direction) {
+  update(camera, direction) {
+    let Head = this.body[0];
+    let x = Head.x;
+    let y = Head.y;
+    switch(direction) {
       case 'left':
-        newHead.x -= this.speed;
+        x -= this.speed;
         camera.x += this.speed;
+        console.log('moved left on' + this.speed);
         break;
       case 'right':
-        newHead.x += this.speed;;
+        x += this.speed;
         camera.x -= this.speed;
         break;
       case 'down':
-        newHead.y += this.speed;;
+        y += this.speed;
         camera.y -= this.speed;
         break;
-      case 'down':
-        newHead.y -= this.speed;;
+      case 'up':
+        y -= this.speed;
         camera.y += this.speed;
         break;
       default:
         break;
     }
-    /*if(newHead.x < 0) {
-        newHead.x = 200-this.size;
-    }*/
-    this.body.unshift(newHead);
+    this.body.unshift({
+      x: x,
+      y: y,
+      direction: direction
+    });
     //this.body.pop();
   }
 }

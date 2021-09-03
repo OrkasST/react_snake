@@ -14,7 +14,7 @@ export class Screen {
       });
     } else {
       let body = obj.body;
-      this.ctx.fillRect(body.x, body.y, obj.size, obj.size);
+      this.ctx.fillRect(body.x + camera.x, body.y + camera.y, obj.size, obj.size);
     }
     this.ctx.closePath();
   }
