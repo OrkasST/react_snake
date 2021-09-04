@@ -12,7 +12,7 @@ export class Player {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
-    switch(direction) {
+    switch(direction || Head.direction) {
       case 'left':
         x -= this.speed;
         camera.x += this.speed;
@@ -36,7 +36,7 @@ export class Player {
     this.body.unshift({
       x: x,
       y: y,
-      direction: direction
+      direction: direction || Head.direction
     });
     //this.body.pop();
   }

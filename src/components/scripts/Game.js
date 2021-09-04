@@ -1,3 +1,5 @@
+import { direction } from './controls';
+
 const render = (camera, screen, data) => {
   screen.clear();
   screen.draw(camera, data.player);
@@ -9,6 +11,6 @@ const update = (camera, data, direction) => {
 }
 
 export const Game = (camera, screen, data) => {
-  update(camera, data);
+  update(camera, data, direction);
   render(camera, screen, data);
 }
