@@ -1,10 +1,16 @@
 export class Screen {
-  constructor(viewArea, ctx, width=200, height=200) {
+  constructor(viewArea, ctx, width = window.outerWidth, height = window.outerHeight) {
     this.viewArea = viewArea;
     this.ctx = ctx;
     this.width = width;
     this.height = height;
   }
+
+  setScreenSize(width, height) {
+    this.viewArea.width = width;
+    this.viewArea.height = height;
+  }
+
   draw(camera, obj) {
     this.ctx.beginPath();
     this.ctx.fillStyle = obj.color;

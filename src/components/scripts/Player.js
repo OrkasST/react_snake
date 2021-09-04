@@ -16,7 +16,6 @@ export class Player { constructor(x=100, y=100, speed=20, size=20,
       case 'left':
         x -= this.speed;
         camera.x += this.speed;
-        console.log('moved left on' + this.speed);
         break;
       case 'right':
         x += this.speed;
@@ -38,7 +37,9 @@ export class Player { constructor(x=100, y=100, speed=20, size=20,
       y: y,
       direction: direction || Head.direction
     });
-    this.body.pop();
+    while(this.body.length > 2) {
+      this.body.pop();
+    }
   }
 
   checkForCollision(head, clsnObj) {
