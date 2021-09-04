@@ -1,5 +1,5 @@
-export class Player {
-  constructor(x=100, y=100, speed=20, size=20, color='green', headColor='black', direction='left') {
+export class Player { constructor(x=100, y=100, speed=20, size=20,
+  color='green', headColor='black', direction='left') {
     this.head = {x: x, y: y, direction: direction};
     this.body = [this.head];
     this.speed = speed;
@@ -38,6 +38,6 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
-    //this.body.pop();
+    this.body.pop();
   }
 }
