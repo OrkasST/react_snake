@@ -40,4 +40,14 @@ export class Player { constructor(x=100, y=100, speed=20, size=20,
     });
     this.body.pop();
   }
+
+  checkForCollision(head, clsnObj) {
+    //data
+    if(head.x === clsnObj.x && head.y === clsnObj.y) {
+      //score += clsnObj.health
+      if(this.injured === true) {
+        this.currentHealth += clsnObj.health;
+      }
+    }
+  }
 }
