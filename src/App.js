@@ -1,11 +1,11 @@
-import './App.css';
 import { changeDirection } from './components/scripts/controls';
 import start from './components/scripts/start';
 import Controls from './components/Controls/Controls';
+import Wrapper from './app-style';
 
 function App() {
   return (
-    <div className="App">
+    <Wrapper>
       <canvas 
         className='screen'
         width='200'
@@ -15,7 +15,7 @@ function App() {
         tabIndex='0' 
       />
       <Controls changeDirection={ changeDirection } />
-    </div>
+    </Wrapper>
   );
 }
 
