@@ -9,8 +9,8 @@ const ControlsWrapper = styled.div`
     width: 5rem;
     height: 5rem;  
     display: none;
-    @media(max-width: 1000px) {
-        display: block;
+    @media (max-width: 1000px) {
+        display: block
     }
 `
 
