@@ -3,8 +3,9 @@ import styled, { css } from "styled-components";
 const Button = styled.button`
     position: absolute;
     padding: 0;
-    width: 2rem;
-    height: 2rem;   
+    width: 3.5rem;
+    height: 3.5rem;   
+    opacity: 0.6;
     ${
         (props) => { 
             if(props.text === 'left') {
