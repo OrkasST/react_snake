@@ -1,6 +1,7 @@
 import './App.css';
 import { changeDirection } from './components/scripts/controls';
 import start from './components/scripts/start';
+import Controls from './components/Controls';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         onKeyDown={ changeDirection } 
         tabIndex='0' 
       />
+      <Controls changeDirection={ changeDirection } />
     </div>
   );
 }
