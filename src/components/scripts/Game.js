@@ -7,7 +7,7 @@ const render = (camera, screen, data) => {
 }
 
 const update = (camera, data, direction) => {
-  data.player.update(camera, direction);
+  data.player.update(camera, direction, data.cube);
 }
 
 export const Game = (camera, screen, data) => {

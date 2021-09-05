@@ -1,5 +1,14 @@
-export class Player { constructor(x=100, y=100, speed=20, size=20,
-  color='green', headColor='black', direction='left') {
+export class Player {
+  constructor(
+    x=100,
+    y=100,
+    speed=20,
+    size=20,
+    color='green',
+    headColor='black',
+    direction='left',
+    maxHealth=10
+  ) {
     this.head = {x: x, y: y, direction: direction};
     this.body = [this.head];
     this.speed = speed;
@@ -8,7 +17,24 @@ export class Player { constructor(x=100, y=100, speed=20, size=20,
     this.headColor = headColor;
   }
 
-  update(camera, direction) {
+  checkForCollision(head, size, clsnObj) {
+    if(
+      (head.x <= clsnObj.x + (clsnObj.size/2) &&
+      head.y <= clsnObj.y + (clsnObj.size/2) &&
+      head.x + size >= clsnObj.x + (clsnObj.size/2) &&
+      head.y + size<= clsnObj.y + (clsnObj.size/2))
+    ) {
+      //score += clsnObj.health
+      //if(this.injured === true) {
+        //this.currentHealth += clsnObj.health;
+      //}
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  update(camera, direction, obj) {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
@@ -37,18 +63,11 @@ export class Player { constructor(x=100, y=100, speed=20, size=20,
       y: y,
       direction: direction || Head.direction
     });
-    while(this.body.length > 2) {
+    if(!this.checkForCollision(Head, this.size, obj)) {
       this.body.pop();
     }
   }
 
-  checkForCollision(head, clsnObj) {
-    //data
-    if(head.x === clsnObj.x && head.y === clsnObj.y) {
-      //score += clsnObj.health
-      if(this.injured === true) {
-        this.currentHealth += clsnObj.health;
-      }
-    }
-  }
+
 }
+
