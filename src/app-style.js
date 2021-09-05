@@ -15,5 +15,8 @@ const Wrapper = styled.div`
         border: #000 solid 1px;
         background-color: #000;
     }
+    ._hidden {
+        display: none;
+    }
 `
 export default Wrapper;

@@ -13,8 +13,6 @@ export class Cube {
     }
 
     spawnCube() {
-        console.log('cube created');
-        console.log(this);
         if(this.body.length < this.spawnLimit) {
             this.body.push({
                 x: Math.floor(Math.random()*this.spawnDiameter-(this.spawnDiameter/2)),

@@ -14,7 +14,12 @@ export const changeDirection = (e) => {
         case 'KeyD':
             direction = 'right';
             break;
+        case 'KeyE':
+            direction = 'speed';
+            break;
         default:
             break;
     }
 }
+
+window.addEventListener('keydown', changeDirection);

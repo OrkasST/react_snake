@@ -15,6 +15,8 @@ export class Player {
     this.size = size;
     this.color = color;
     this.headColor = headColor;
+    this.maxHealth = maxHealth;
+    this.speedUpAvailable = true;
   }
 
   update(camera, direction, obj) {
@@ -37,6 +39,9 @@ export class Player {
       case 'up':
         y -= this.speed;
         camera.y += this.speed;
+        break;
+      case 'speed':
+        this.speedUp();
         break;
       default:
         break;
@@ -90,6 +95,16 @@ export class Player {
     }
   }
 
+  speedUp() {
+    this.speed = 4;
+    setTimeout( () => {
+      this.speed = 2;
+      this.speedUpAvailable = false;
+      setTimeout( () => {
+        this.speedUpAvailable = true;
+      }, 1000);
+    }, 2000);
+  }
 
 }
 

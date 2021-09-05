@@ -4,8 +4,24 @@ const Button = styled.button`
     position: absolute;
     padding: 0;
     width: 3.5rem;
-    height: 3.5rem;   
-    opacity: 0.6;
+    height: 3.5rem;
+    ${
+        props => props.control && css`
+            opacity: 0.6;
+        `
+    }  
+    ${
+        props => props.start && css`
+            left: 50%;
+            top: 5rem;
+            transform: translate(-50%);
+            border: solid;
+            border-radius: 1rem;
+            width: 5rem;
+            height: 3rem;
+            font-size: 1.2rem;
+        `
+    }
     ${
         (props) => { 
             if(props.text === 'left') {
@@ -35,6 +51,10 @@ const Button = styled.button`
             }
         }
     };
+
+    ._hidden {
+        display: none;
+    }
 `
 
 export default Button;
