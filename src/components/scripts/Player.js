@@ -2,7 +2,7 @@ export class Player {
   constructor(
     x=100,
     y=100,
-    speed=20,
+    speed=2,
     size=20,
     color='green',
     headColor='black',
@@ -15,23 +15,6 @@ export class Player {
     this.size = size;
     this.color = color;
     this.headColor = headColor;
-  }
-
-  checkForCollision(head, size, clsnObj) {
-    if(
-      (head.x <= clsnObj.x + (clsnObj.size/2) &&
-      head.y <= clsnObj.y + (clsnObj.size/2) &&
-      head.x + size >= clsnObj.x + (clsnObj.size/2) &&
-      head.y + size<= clsnObj.y + (clsnObj.size/2))
-    ) {
-      //score += clsnObj.health
-      //if(this.injured === true) {
-        //this.currentHealth += clsnObj.health;
-      //}
-      return true;
-    } else {
-      return false;
-    }
   }
 
   update(camera, direction, obj) {
@@ -63,8 +46,47 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
-    if(!this.checkForCollision(Head, this.size, obj)) {
+    if(!this.checkForCollision(this.body[0], this.size, obj)) {
       this.body.pop();
+    }
+  }
+
+  checkForCollision(head, size, clsnObj) {
+    if(!Array.isArray(clsnObj.body)) {
+      if(
+        head.x <= clsnObj.body.x + clsnObj.size &&
+        head.x + size >= clsnObj.body.x &&
+        head.y <= clsnObj.body.y + clsnObj.size &&
+        head.y + size >= clsnObj.body.y
+      ) {
+        //score += clsnObj.health
+        //if(this.injured === true) {
+          //this.currentHealth += clsnObj.health;
+        //}
+        // alert('');
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      //let forDestruction = [];
+      let grow = false;
+      clsnObj.body.forEach( (obj, i) => {
+        if(
+          head.x <= obj.x + clsnObj.size &&
+          head.x + size >= obj.x &&
+          head.y <= obj.y + clsnObj.size &&
+          head.y + size >= obj.y
+        ) {
+          clsnObj.body.splice(i, 1);
+          grow = true;
+          //score += clsnObj.health
+          //if(this.injured === true) {
+            //this.currentHealth += clsnObj.health;
+          //}
+        }
+      });
+      return grow;
     }
   }
 

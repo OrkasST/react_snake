@@ -12,8 +12,12 @@ const start = (e) => {
   let player = new Player(screen.width/2, screen.height/2);
   let camera = new Camera();
   let cube = new Cube();
+  while(cube.body.length < cube.spawnLimit/2) {
+    cube.spawnCube();
+  }
+  setInterval( () => {cube.spawnCube()}, cube.spawnInterval);
   Game(camera, screen, {player, cube});
-  setInterval( () => { Game(camera, screen, {player, cube}) }, 1000)
+  //setInterval( () => { Game(camera, screen, {player, cube}) }, 1000)
 }
 
 export default start;
