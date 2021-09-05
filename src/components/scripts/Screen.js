@@ -24,16 +24,21 @@ export class Screen {
     }
     this.ctx.closePath();
   }
-  drawUI(UI) {
+  drawUI(UI, currentMlP, MlPtoGrow) {
     this.ctx.beginPath();
     this.ctx.fillStyle = UI.borderColor;
-    this.ctx.fillRect(UI.border.x, UI.border.y, UI.border.length, UI.border.size);
+    this.ctx.fillRect(UI.border.x, UI.border.y, UI.maxAmmount*10 + 2, UI.border.size);
     this.ctx.closePath();
     this.ctx.beginPath();
     this.ctx.fillStyle = UI.healthColor;
-    this.ctx.fillRect(UI.x, UI.y, UI.ammount, UI.size);
+    this.ctx.fillRect(UI.x, UI.y, UI.ammount*10, UI.size);
     this.ctx.closePath();
-
+    this.ctx.beginPath();
+    this.ctx.fillStyle = UI.textColor;
+    this.ctx.font = '20px serif';
+    this.ctx.fillText(`${UI.ammount} / ${UI.maxAmmount}`, UI.border.x + UI.maxAmmount*10 + 20, UI.y + UI.border.size);
+    this.ctx.fillText(`${currentMlP} / ${MlPtoGrow}`, UI.x, UI.textY);
+    this.ctx.closePath();
   }
 
   clear() {

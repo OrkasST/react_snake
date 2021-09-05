@@ -1,5 +1,5 @@
 export class Cube {
-    constructor(color='#FF0000', size=10, x=120, y=120, spawnLimit = 20, spawnDiameter = 600, spawnInterval = 2500) {
+    constructor(color='#FF0000', size=10, x=120, y=120, spawnLimit = 20, spawnDiameter = 600, spawnInterval = 2500, health=1) {
         this.color = color;
         this.size = size;
         this.spawnLimit = spawnLimit;
@@ -10,6 +10,7 @@ export class Cube {
             y: y
         }
         this.body = [];
+        this.health = health;
     }
 
     spawnCube() {

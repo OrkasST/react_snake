@@ -1,3 +1,4 @@
-export const update = (camera, data, direction) => {
-    data.player.update(camera, direction, data.cube);
+export const update = (camera, data, direction, speedUp) => {
+    data.player.update(camera, direction, data.cube, speedUp);
+    data.ui.updateUI(data.player.maxHealth, data.player.health);
 }

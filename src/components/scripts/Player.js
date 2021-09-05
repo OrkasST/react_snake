@@ -7,7 +7,10 @@ export class Player {
     color='green',
     headColor='black',
     direction='left',
-    maxHealth=10
+    maxHealth=10,
+    mealPoints=0,
+    pointsToGrow=2,
+    availableLength=1
   ) {
     this.head = {x: x, y: y, direction: direction};
     this.body = [this.head];
@@ -16,14 +19,20 @@ export class Player {
     this.color = color;
     this.headColor = headColor;
     this.maxHealth = maxHealth;
+    this.health = maxHealth;
     this.speedUpAvailable = true;
-    this.lastDirection = '';
+    this.mealPoints = mealPoints;
+    this.pointsToGrow = pointsToGrow;
+    this.availableLength = availableLength;
   }
 
-  update(camera, direction, obj) {
+  update(camera, direction, obj, speed) {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
+    if(speed) {
+      this.speedUp();
+    }
     switch(direction || Head.direction) {
       case 'left':
         x -= this.speed;
@@ -41,10 +50,6 @@ export class Player {
         y -= this.speed;
         camera.y += this.speed;
         break;
-      // case 'speed':
-      //   this.speedUp();
-      //   direction = this.lastDirection;
-      //   break;
       default:
         break;
     }
@@ -53,9 +58,10 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
-    this.lastDirection = direction;
-    if(!this.checkForCollision(this.body[0], this.size, obj)) {
+    if(!this.checkForCollision(this.body[0], this.size, obj) && this.body.length > this.availableLength) {
       this.body.pop();
+    } else if(!this.isAbleToGrow()) {
+      if(this.body.length > this.availableLength) this.body.pop();
     }
   }
 
@@ -67,17 +73,15 @@ export class Player {
         head.y <= clsnObj.body.y + clsnObj.size &&
         head.y + size >= clsnObj.body.y
       ) {
-        //score += clsnObj.health
-        //if(this.injured === true) {
-          //this.currentHealth += clsnObj.health;
-        //}
-        // alert('');
+        this.mealPoints += clsnObj.health;
+        if(this.health < this.maxHealth) {
+          this.restoreHealth(clsnObj.health);
+        }
         return true;
       } else {
         return false;
       }
     } else {
-      //let forDestruction = [];
       let grow = false;
       clsnObj.body.forEach( (obj, i) => {
         if(
@@ -88,14 +92,25 @@ export class Player {
         ) {
           clsnObj.body.splice(i, 1);
           grow = true;
-          //score += clsnObj.health
-          //if(this.injured === true) {
-            //this.currentHealth += clsnObj.health;
-          //}
+          this.mealPoints += clsnObj.health;
+          if(this.health < this.maxHealth) {
+            this.restoreHealth(clsnObj.health);
+          }
         }
       });
       return grow;
     }
+  }
+
+  isAbleToGrow() {
+    if(this.mealPoints >= this.pointsToGrow) {
+      this.mealPoints -= this.pointsToGrow;
+      this.pointsToGrow = Math.floor(this.pointsToGrow * 1.5);
+      this.availableLength++;
+      this.maxHealth++;
+      this.isAbleToGrow();
+    }
+    return false;
   }
 
   speedUp() {
@@ -105,8 +120,14 @@ export class Player {
       this.speedUpAvailable = false;
       setTimeout( () => {
         this.speedUpAvailable = true;
-      }, 1000);
-    }, 2000);
+      }, 2000);
+    }, 1000);
+  }
+
+  restoreHealth(mealHealth) {
+    let CAP = this.maxHealth;
+    this.health += mealHealth;
+    if(this.health > CAP) this.health = CAP;
   }
 
 }
