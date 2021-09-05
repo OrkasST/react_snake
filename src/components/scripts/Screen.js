@@ -24,6 +24,18 @@ export class Screen {
     }
     this.ctx.closePath();
   }
+  drawUI(UI) {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = UI.borderColor;
+    this.ctx.fillRect(UI.border.x, UI.border.y, UI.border.length, UI.border.size);
+    this.ctx.closePath();
+    this.ctx.beginPath();
+    this.ctx.fillStyle = UI.healthColor;
+    this.ctx.fillRect(UI.x, UI.y, UI.ammount, UI.size);
+    this.ctx.closePath();
+
+  }
+
   clear() {
     this.ctx.fillStyle = '#000000';
     this.ctx.clearRect(0, 0, this.width, this.height);

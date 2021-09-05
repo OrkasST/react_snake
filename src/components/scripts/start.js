@@ -3,6 +3,7 @@ import { Screen } from './Screen';
 import { Game } from './Game';
 import { Camera } from './Camera';
 import { Cube } from './Cube';
+import { UI } from './UI';
 
 const start = (Cnv) => {
   let viewArea = Cnv;
@@ -13,11 +14,12 @@ const start = (Cnv) => {
   let player = screen.height <= 700 ? new Player(screen.width/2, 150) : new Player(screen.width/2, screen.height/2);
   let camera = new Camera();
   let cube = new Cube();
+  let ui = new UI();
   while(cube.body.length < cube.spawnLimit/2) {
     cube.spawnCube();
   }
   setInterval( () => {cube.spawnCube()}, cube.spawnInterval);
-  Game(camera, screen, {player, cube});
+  Game(camera, screen, {player, cube, ui});
 }
 
 export default start;
