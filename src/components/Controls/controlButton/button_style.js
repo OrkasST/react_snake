@@ -48,13 +48,15 @@ const Button = styled.button`
                     left: 50%;
                     transform: translateX(-50%) rotate(45deg);
                 `
+            } else if(props.text === 'speedUp') {
+                return css`
+                    top: -20%;
+                    right: -35%;
+                    transform: translateX(-50%);
+                `
             }
         }
     };
-
-    ._hidden {
-        display: none;
-    }
 `
 
 export default Button;

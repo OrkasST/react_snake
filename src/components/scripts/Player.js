@@ -17,6 +17,7 @@ export class Player {
     this.headColor = headColor;
     this.maxHealth = maxHealth;
     this.speedUpAvailable = true;
+    this.lastDirection = '';
   }
 
   update(camera, direction, obj) {
@@ -40,9 +41,10 @@ export class Player {
         y -= this.speed;
         camera.y += this.speed;
         break;
-      case 'speed':
-        this.speedUp();
-        break;
+      // case 'speed':
+      //   this.speedUp();
+      //   direction = this.lastDirection;
+      //   break;
       default:
         break;
     }
@@ -51,6 +53,7 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
+    this.lastDirection = direction;
     if(!this.checkForCollision(this.body[0], this.size, obj)) {
       this.body.pop();
     }
