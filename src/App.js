@@ -1,7 +1,7 @@
 import './App.css';
 import { changeDirection } from './components/scripts/controls';
 import start from './components/scripts/start';
-import Controls from './components/Controls';
+import Controls from './components/Controls/Controls';
 
 function App() {
   return (
