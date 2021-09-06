@@ -1,9 +1,9 @@
 export class UI {
-  constructor(x=100, y=50, ammount=10, maxAmmount=10, size=10) {
+  constructor(width, x=100, y=50, ammount=10, maxAmmount=10, size=10) {
     this.ammount = ammount;
     this.maxAmmount = maxAmmount;
-    this.x = x;
-    this.y = y;
+    this.x = width < 1000 ? 30 : x;
+    this.y = width < 1000 ? 30 : y;
     this.size = size;
     this.healthColor='#FF0000';
     this.borderColor = '#FFFFFF';

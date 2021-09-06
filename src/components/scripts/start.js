@@ -14,7 +14,7 @@ const start = (Cnv) => {
   let player = screen.height <= 700 ? new Player(screen.width/2, 150) : new Player(screen.width/2, screen.height/2);
   let camera = new Camera();
   let cube = new Cube();
-  let ui = new UI();
+  let ui = new UI(screen.width);
   while(cube.body.length < cube.spawnLimit/2) {
     cube.spawnCube();
   }
