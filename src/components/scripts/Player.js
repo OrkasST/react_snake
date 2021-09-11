@@ -10,10 +10,12 @@ export class Player {
     maxHealth=10,
     mealPoints=0,
     pointsToGrow=2,
-    availableLength=1
+    availableLength=1,
+    spawnPointX = 0,
+    spawnPointY = 0
   ) {
     this.head = {x: x, y: y, direction: direction};
-    this.body = [this.head];
+    this.body = [this.head, this.head];
     this.speed = speed;
     this.size = size;
     this.color = color;
@@ -24,6 +26,13 @@ export class Player {
     this.mealPoints = mealPoints;
     this.pointsToGrow = pointsToGrow;
     this.availableLength = availableLength;
+    this.head_img = null;
+    this.body_img = null;
+    this.tail_img = null;
+    this.spawnPoint = {
+      x: spawnPointX,
+      y: spawnPointY
+    }
   }
 
   update(camera, direction, obj, speed) {
@@ -63,6 +72,12 @@ export class Player {
     } else if(!this.isAbleToGrow()) {
       if(this.body.length > this.availableLength) this.body.pop();
     }
+  }
+
+  setImages(headImg, bodyImg, tailImg) {
+    this.head_img = headImg;
+    this.body_img = bodyImg;
+    this.tail_img = tailImg;
   }
 
   checkForCollision(head, size, clsnObj) {
@@ -128,6 +143,11 @@ export class Player {
     let CAP = this.maxHealth;
     this.health += mealHealth;
     if(this.health > CAP) this.health = CAP;
+  }
+
+  setSpawnPoint(x, y) {
+    this.spawnPoint.x = x;
+    this.spawnPoint.y = y;
   }
 
 }

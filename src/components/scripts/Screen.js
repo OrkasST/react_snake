@@ -1,12 +1,14 @@
+//import { TileMap } from "./tile-map";
+
 export class Screen {
-  constructor(viewArea, ctx, width = window.outerWidth, height = window.outerHeight) {
+  constructor({viewArea, ctx, width = window.innerWidth, height = window.innerHeight}) {
     this.viewArea = viewArea;
     this.ctx = ctx;
     this.width = width;
     this.height = height;
   }
 
-  setScreenSize(width, height) {
+  setScreenSize(width = this.width, height = this.height) {
     this.viewArea.width = width;
     this.viewArea.height = height;
   }
@@ -16,14 +18,17 @@ export class Screen {
     this.ctx.fillStyle = obj.color;
     if(Array.isArray(obj.body)) {
       obj.body.forEach( (part) => {
-        this.ctx.fillRect(part.x + camera.x, part.y + camera.y, obj.size, obj.size);
+        obj.image ? this.ctx.drawImage(obj.image, part.x + camera.x, part.y + camera.y, obj.size, obj.size)
+         : this.ctx.fillRect(part.x + camera.x, part.y + camera.y, obj.size, obj.size);
       });
     } else {
       let body = obj.body;
-      this.ctx.fillRect(body.x + camera.x, body.y + camera.y, obj.size, obj.size);
+      obj.image ? this.ctx.drawImage(obj.image, body.x + camera.x, body.y + camera.y, obj.size || obj.width, obj.size || obj.height)
+       : this.ctx.fillRect(body.x + camera.x, body.y + camera.y, obj.size || obj.width, obj.size || obj.height);
     }
     this.ctx.closePath();
   }
+
   drawUI(UI, currentMlP, MlPtoGrow) {
     this.ctx.beginPath();
     this.ctx.fillStyle = UI.borderColor;
@@ -41,8 +46,73 @@ export class Screen {
     this.ctx.closePath();
   }
 
+  onLoading() {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.font = '25px serif';
+    this.ctx.fillText('Loading...', 100, 100);
+    this.ctx.closePath();
+  }
+
   clear() {
     this.ctx.fillStyle = '#000000';
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
+
+  createMap(name, mapData, tileset, images, mapScreen, playerSpawnPoint) {
+    //const mapImage = document.createElement('canvas');
+    mapScreen.width = mapData.width * mapData.tilewidth;
+    mapScreen.height = mapData.height * mapData.tileheight;
+    const mapContext = mapScreen.getContext('2d');
+    const hitboxes = [];
+    let row, col;
+    mapData.layers.forEach(layer => {
+        if(layer.type === "tilelayer") {
+            row = 0;
+            col = 0;
+            layer.data.forEach(index => {
+                if(index > 0) {
+                    mapContext.drawImage(images[tileset.imageName],
+                        tileset.getSourceX(index), tileset.getSourceY(index),
+                        mapData.tilewidth, mapData.tileheight,
+                        col * mapData.tilewidth, row * mapData.tileheight,
+                        mapData.tilewidth, mapData.tileheight
+                        );
+                }
+                col++;
+                if(col > (mapData.width - 1)) {
+                    col = 0;
+                    row++;
+                }
+            });
+        }
+        if(layer.type === "objectgroup") {
+            hitboxes.push(...layer.objects.map(obj => ({x1: obj.x, x2: obj.x + obj.width, y1: obj.y, y2: obj.y + obj.height})));
+        }
+    });
+
+    images[name] = mapScreen;
+    // return new TileMap({
+    //     imageName: name,
+    //     sourceX: 0,
+    //     sourceY: 0,
+    //     width: mapScreen.width,
+    //     height: mapScreen.height,
+    //     hitboxes: hitboxes
+    // });
+
+    return { 
+      body : {
+        x: playerSpawnPoint.x > 0 
+          ? 0 - playerSpawnPoint.x 
+          : 0 - mapScreen.width/3,
+        y: playerSpawnPoint.y > 0 
+          ? 0 - playerSpawnPoint.y 
+          : 0 - mapScreen.height/3
+      },
+      image: mapScreen,
+      width: mapScreen.width,
+      height: mapScreen.height
+    }
+}
 }
