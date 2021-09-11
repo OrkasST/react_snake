@@ -5,7 +5,7 @@ import { Camera } from './Camera';
 import { Cube } from './Cube';
 import { UI } from './UI';
 import { ImageLoader } from './ImageLoader';
-import { SpriteSheet } from './sprite-sheet';
+import { MapCreator } from './mapCreator';
 
 const start = (Cnv, WorldMap) => {
   let viewArea = Cnv;
@@ -32,20 +32,17 @@ const start = (Cnv, WorldMap) => {
   let images = {};
   let loader = new ImageLoader({
     apple : '/images/apple.png',
-    map_tiles: '/images/tiles.png'
+    map_tiles: '/images/tiles.png',
+    player_head: '/images/snake-head.png',
+    player_body: '/images/snake-body.png',
+    player_tail: '/images/snake-tail.png'
   });
   
   
   loader.loadImages().then(names => {
     images = Object.assign(images, loader.images)
     cube.setImage(images['apple']);
-    let tiles = new SpriteSheet({
-      imageName: 'map_tiles',
-      imageWidth: 640,
-      imageHeight: 640
-    });
-    const mapData = require('../maps/world_map.json');
-    let map = screen.createMap('world_map', mapData, tiles, images, WorldMap, player.spawnPoint);
+    let map = MapCreator(images, WorldMap, player.spawnPoint, screen)
     setTimeout(()=>{
       Game(camera, screen, {player, cube, ui, map});
     }, 2000);
