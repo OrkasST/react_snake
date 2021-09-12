@@ -95,6 +95,7 @@ export class Player {
         } else if(clsnObj.type === 'enemy') {
           this.health -= clsnObj.attack - this.armor;
           clsnObj.currentHealth -= this.attack - clsnObj.armor;
+          if(clsnObj.currentHealth <= 0) this.mealPoints += clsnObj.health;
         }
       } else {
         return false;
