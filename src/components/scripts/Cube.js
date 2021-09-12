@@ -15,7 +15,6 @@ export class Cube {
         this.body = [];
         this.health = health;
         this.image = null;
-        this.type = 'food';
     }
 
     spawnCube(name = 'initial', x, y) {

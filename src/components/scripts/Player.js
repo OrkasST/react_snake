@@ -11,7 +11,9 @@ export class Player {
     mealPoints = 0
   ) {
     this.head = { x: x, y: y, direction: direction };
-    this.body = [this.head, this.head];
+    this.defaultX = x;
+    this.defaultY = y;
+    this.body = [this.head];
     this.speed = speed;
     this.size = size;
     this.color = color;
@@ -33,7 +35,7 @@ export class Player {
     }
   }
 
-  update(camera, direction, obj, speed) {
+  update(camera, direction, chknObjects, speed) {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
@@ -65,10 +67,16 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
-    if (!this.checkForCollision(this.body[0], this.size, obj) && this.body.length > this.availableLength) {
-      this.body.pop();
+    if (!this.checkForCollision(this.body[0], this.size, chknObjects[0], camera) 
+      && !this.checkForCollision(this.body[0], this.size, chknObjects[1], camera) 
+      && this.body.length > this.availableLength) {
+        this.body.pop();
     } else if (!this.isAbleToGrow()) {
-      if (this.body.length > this.availableLength) this.body.pop();
+      if (this.body.length > this.availableLength){
+        while(this.body.length > this.availableLength) {
+          this.body.pop();
+        }
+      } 
     }
   }
 
@@ -78,47 +86,49 @@ export class Player {
     this.tail_img = tailImg;
   }
 
-  checkForCollision(head, size, clsnObj) {
-    if (!Array.isArray(clsnObj.body)) {
+  checkForCollision(head, size, clsnObj, camera) {
+    let grow = false;
+    clsnObj.body.forEach((obj, i) => {
       if (
-        head.x <= clsnObj.body.x + clsnObj.size &&
-        head.x + size >= clsnObj.body.x &&
-        head.y <= clsnObj.body.y + clsnObj.size &&
-        head.y + size >= clsnObj.body.y
+        head.x <= obj.x + (clsnObj.size || clsnObj.width) &&
+        head.x + size >= obj.x &&
+        head.y <= obj.y + (clsnObj.size || clsnObj.height) &&
+        head.y + size >= obj.y
       ) {
-        if(clsnObj.type === 'food') {
-          this.mealPoints += clsnObj.health;
-          if (this.health < this.maxHealth) {
-            this.restoreHealth(clsnObj.health);
-          }
-          return true;
-        } else if(clsnObj.type === 'enemy') {
-          this.health -= clsnObj.attack - this.armor;
-          clsnObj.currentHealth -= this.attack - clsnObj.armor;
-          if(clsnObj.currentHealth <= 0) this.mealPoints += clsnObj.health;
-        }
-      } else {
-        return false;
-      }
-    } else {
-      let grow = false;
-      clsnObj.body.forEach((obj, i) => {
-        if (
-          head.x <= obj.x + clsnObj.size &&
-          head.x + size >= obj.x &&
-          head.y <= obj.y + clsnObj.size &&
-          head.y + size >= obj.y
-        ) {
+        if (clsnObj.type === 'food') {
           clsnObj.body.splice(i, 1);
           grow = true;
           this.mealPoints += clsnObj.health;
           if (this.health < this.maxHealth) {
             this.restoreHealth(clsnObj.health);
           }
+        } else if (clsnObj.type === 'enemy') {
+          this.health -= clsnObj.attack - this.armor;
+          obj.health -= this.attack - clsnObj.armor;
+          if (obj.health <= 0) {
+            clsnObj.body.splice(i, 1);
+            this.mealPoints += clsnObj.health;
+            grow = true;
+          }
+          if( this.health <= 0) {
+            this.Death(camera);
+          }
+
         }
-      });
-      return grow;
-    }
+      }
+    });
+    return grow;
+  }
+
+  Death(camera) {
+    this.mealPoints = 0;
+    this.availableLength = 1;
+    this.maxHealth = 10;
+    this.health = this.maxHealth;
+    this.body[0].x = this.defaultX;
+    this.body[0].y = this.defaultY;
+    camera.x = 0;
+    camera.y = 0;
   }
 
   isAbleToGrow() {

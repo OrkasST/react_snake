@@ -18,13 +18,13 @@ export class Screen {
     this.ctx.fillStyle = obj.color;
     if(Array.isArray(obj.body)) {
       obj.body.forEach( (part) => {
-        obj.image ? this.ctx.drawImage(obj.image, part.x + camera.x, part.y + camera.y, obj.size, obj.size)
-         : this.ctx.fillRect(part.x + camera.x, part.y + camera.y, obj.size, obj.size);
+        obj.image ? this.ctx.drawImage(obj.image, part.x + camera.x, part.y + camera.y, obj.width || obj.size, obj.height || obj.size)
+         : this.ctx.fillRect(part.x + camera.x, part.y + camera.y, obj.width || obj.size, obj.height || obj.size);
       });
     } else {
       let body = obj.body;
-      obj.image ? this.ctx.drawImage(obj.image, body.x + camera.x, body.y + camera.y, obj.size || obj.width, obj.size || obj.height)
-       : this.ctx.fillRect(body.x + camera.x, body.y + camera.y, obj.size || obj.width, obj.size || obj.height);
+      obj.image ? this.ctx.drawImage(obj.image, body.x + camera.x, body.y + camera.y, obj.width || obj.size, obj.height || obj.size)
+       : this.ctx.fillRect(body.x + camera.x, body.y + camera.y, obj.width || obj.size, obj.height || obj.size);
     }
     this.ctx.closePath();
   }
@@ -44,6 +44,21 @@ export class Screen {
     this.ctx.fillText(`${UI.ammount} / ${UI.maxAmmount}`, UI.border.x + UI.maxAmmount*10 + 20, UI.y + UI.border.size);
     this.ctx.fillText(`${currentMlP} / ${MlPtoGrow}`, UI.x, UI.textY);
     this.ctx.closePath();
+  }
+
+  drawEnemyHealth(camera, enemy) {
+    let offsetX = 20;
+    let offsetY = 20;
+    enemy.body.forEach( part => {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = '#FFFFFF';
+      this.ctx.fillRect(part.x - offsetX + camera.x, part.y - offsetY + camera.y, enemy.health * (50 / enemy.health) + 2, 10);
+      this.ctx.closePath();
+      this.ctx.beginPath();
+      this.ctx.fillStyle = '#FF0000';
+      this.ctx.fillRect(part.x - (offsetX - 1) + camera.x, part.y - (offsetY - 1) + camera.y, part.health * (50 / enemy.health), 8);
+      this.ctx.closePath();
+    });
   }
 
   onLoading() {
