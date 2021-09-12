@@ -1,37 +1,72 @@
 export class Cube {
-    constructor(x=120, y=120, color='#FF0000', size=20, spawnLimit = 20, spawnDiameter = 600, spawnInterval = 2500, health=1, image = null) {
+    constructor(color='#FF0000', size=20, health=1) {
         this.color = color;
         this.size = size;
-        this.spawnLimit = spawnLimit;
-        this.spawnDiameter = spawnDiameter;
-        this.spawnInterval = spawnInterval;
+        this.spawnLimit = 20;
+        this.spawnDiameter = 600;
+        this.spawnInterval = 2500;
+        this.spawnSpeed = 1;
         this.spawnPoint = {
-            x: x,
-            y: y
+            initial: {
+                x: 120,
+                y: 120
+            }
         }
         this.body = [];
         this.health = health;
-        this.image = image;
+        this.image = null;
+        this.type = 'food';
     }
 
-    spawnCube() {
-        if(this.body.length < this.spawnLimit) {
-            this.body.push({
-                x: Math.floor(Math.random()*this.spawnDiameter-(this.spawnDiameter/2)),
-                y: Math.floor(Math.random()*this.spawnDiameter-(this.spawnDiameter/2))
-            })
+    spawnCube(name = 'initial', x, y) {
+        if (this.spawnPoint[name].toSpawn === 0) {
+            if(this.body.length < this.spawnPoint[name].limit) {
+                this.body.push({
+                    x: this.spawnPoint[name].x + Math.floor(Math.random()*this.spawnPoint[name].diameter-(this.spawnPoint[name].diameter/2)) || x,
+                    y: this.spawnPoint[name].y + Math.floor(Math.random()*this.spawnPoint[name].diameter-(this.spawnPoint[name].diameter/2)) || y
+                });
+                this.spawnPoint[name].toSpawn = this.spawnPoint[name].speed;
+            }
+        } else if(this.spawnPoint[name].toSpawn > 0) {
+            this.spawnPoint[name].toSpawn--;
         }
     }
 
-    setSpawnPoint(x, y) {
-        this.spawnPoint.x = x;
-        this.spawnPoint.y = y;
+    setSpawnPoint(x, y, playerSpawnPoint, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+        this.spawnPoint.initial.x = playerSpawnPoint.x > 0
+            ? x - playerSpawnPoint.x
+            : x;
+        this.spawnPoint.initial.y = playerSpawnPoint.y > 0
+        ? y - playerSpawnPoint.y
+        : y;
+        this.spawnPoint.initial.diameter = diameter;
+        this.spawnPoint.initial.limit = limit;
+        this.spawnPoint.initial.speed = speed;
+        this.spawnPoint.initial.toSpawn = speed;
     }
 
-    setSpawnPapams(diameter, limit, interval) {
-        this.spawnLimit = limit;
-        this.spawnDiameter = diameter;
+    setSpawnPapams(name, diameter, limit, speed) {
+        this.spawnPoint[name].limit = limit;
+        this.spawnPoint[name].diameter = diameter;
+        this.spawnPoint[name].speed = speed;
+    }
+
+    setApawnInterval( interval) {
         this.spawnInterval = interval;
+    }
+
+    addSpawnPoint(name, x, y, playerSpawnPoint, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+        this.spawnPoint[name] = {};
+        this.spawnPoint[name].x = playerSpawnPoint.x > 0
+            ? x - playerSpawnPoint.x
+            : x;
+        this.spawnPoint[name].y = playerSpawnPoint.y > 0
+        ? y - playerSpawnPoint.y
+        : y;
+        this.spawnPoint[name].diameter = diameter;
+        this.spawnPoint[name].limit = limit;
+        this.spawnPoint[name].speed = speed;
+        this.spawnPoint[name].toSpawn = speed;
     }
 
     setImage(img) {

@@ -1,20 +1,16 @@
 export class Player {
   constructor(
-    x=100,
-    y=100,
-    speed=2,
-    size=20,
-    color='green',
-    headColor='black',
-    direction='left',
-    maxHealth=10,
-    mealPoints=0,
-    pointsToGrow=2,
-    availableLength=1,
-    spawnPointX = 0,
-    spawnPointY = 0
+    x = 100,
+    y = 100,
+    speed = 2,
+    size = 20,
+    color = 'green',
+    headColor = 'black',
+    direction = 'left',
+    maxHealth = 10,
+    mealPoints = 0
   ) {
-    this.head = {x: x, y: y, direction: direction};
+    this.head = { x: x, y: y, direction: direction };
     this.body = [this.head, this.head];
     this.speed = speed;
     this.size = size;
@@ -22,16 +18,18 @@ export class Player {
     this.headColor = headColor;
     this.maxHealth = maxHealth;
     this.health = maxHealth;
+    this.armor = 1;
+    this.attack = 1;
     this.speedUpAvailable = true;
     this.mealPoints = mealPoints;
-    this.pointsToGrow = pointsToGrow;
-    this.availableLength = availableLength;
+    this.pointsToGrow = 2;
+    this.availableLength = 1;
     this.head_img = null;
     this.body_img = null;
     this.tail_img = null;
     this.spawnPoint = {
-      x: spawnPointX,
-      y: spawnPointY
+      x: 0,
+      y: 0
     }
   }
 
@@ -39,10 +37,10 @@ export class Player {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
-    if(speed) {
+    if (speed) {
       this.speedUp();
     }
-    switch(direction || Head.direction) {
+    switch (direction || Head.direction) {
       case 'left':
         x -= this.speed;
         camera.x += this.speed;
@@ -67,10 +65,10 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
-    if(!this.checkForCollision(this.body[0], this.size, obj) && this.body.length > this.availableLength) {
+    if (!this.checkForCollision(this.body[0], this.size, obj) && this.body.length > this.availableLength) {
       this.body.pop();
-    } else if(!this.isAbleToGrow()) {
-      if(this.body.length > this.availableLength) this.body.pop();
+    } else if (!this.isAbleToGrow()) {
+      if (this.body.length > this.availableLength) this.body.pop();
     }
   }
 
@@ -81,25 +79,30 @@ export class Player {
   }
 
   checkForCollision(head, size, clsnObj) {
-    if(!Array.isArray(clsnObj.body)) {
-      if(
+    if (!Array.isArray(clsnObj.body)) {
+      if (
         head.x <= clsnObj.body.x + clsnObj.size &&
         head.x + size >= clsnObj.body.x &&
         head.y <= clsnObj.body.y + clsnObj.size &&
         head.y + size >= clsnObj.body.y
       ) {
-        this.mealPoints += clsnObj.health;
-        if(this.health < this.maxHealth) {
-          this.restoreHealth(clsnObj.health);
+        if(clsnObj.type === 'food') {
+          this.mealPoints += clsnObj.health;
+          if (this.health < this.maxHealth) {
+            this.restoreHealth(clsnObj.health);
+          }
+          return true;
+        } else if(clsnObj.type === 'enemy') {
+          this.health -= clsnObj.attack - this.armor;
+          clsnObj.currentHealth -= this.attack - clsnObj.armor;
         }
-        return true;
       } else {
         return false;
       }
     } else {
       let grow = false;
-      clsnObj.body.forEach( (obj, i) => {
-        if(
+      clsnObj.body.forEach((obj, i) => {
+        if (
           head.x <= obj.x + clsnObj.size &&
           head.x + size >= obj.x &&
           head.y <= obj.y + clsnObj.size &&
@@ -108,7 +111,7 @@ export class Player {
           clsnObj.body.splice(i, 1);
           grow = true;
           this.mealPoints += clsnObj.health;
-          if(this.health < this.maxHealth) {
+          if (this.health < this.maxHealth) {
             this.restoreHealth(clsnObj.health);
           }
         }
@@ -118,7 +121,7 @@ export class Player {
   }
 
   isAbleToGrow() {
-    if(this.mealPoints >= this.pointsToGrow) {
+    if (this.mealPoints >= this.pointsToGrow) {
       this.mealPoints -= this.pointsToGrow;
       this.pointsToGrow = Math.floor(this.pointsToGrow * 1.5);
       this.availableLength++;
@@ -130,10 +133,10 @@ export class Player {
 
   speedUp() {
     this.speed = 4;
-    setTimeout( () => {
+    setTimeout(() => {
       this.speed = 2;
       this.speedUpAvailable = false;
-      setTimeout( () => {
+      setTimeout(() => {
         this.speedUpAvailable = true;
       }, 2000);
     }, 1000);
@@ -142,7 +145,7 @@ export class Player {
   restoreHealth(mealHealth) {
     let CAP = this.maxHealth;
     this.health += mealHealth;
-    if(this.health > CAP) this.health = CAP;
+    if (this.health > CAP) this.health = CAP;
   }
 
   setSpawnPoint(x, y) {
