@@ -107,15 +107,18 @@ export class Player {
           }
         } else if (clsnObj.type === 'attackUpgrade') {
           if(this.availableLength <= 2)clsnObj.body.splice(i, 1);
-          this.upgradeAttack();
-          this.availableLength--;
+          if(this.availableLength > 1) {
+            this.upgradeAttack();
+            this.availableLength--;
+          }
         } else if (clsnObj.type === 'armorUpgrade') {
           if(this.availableLength <= 2)clsnObj.body.splice(i, 1);
-          this.upgradeArmor();
-          this.availableLength--;
-
+          if(this.availableLength > 1) {
+            this.upgradeArmor();
+            this.availableLength--;
+          }
         } else if (clsnObj.type === 'enemy') {
-          this.health -= clsnObj.attack - this.armor;
+          this.health -= Math.max(0, (clsnObj.attack - this.armor));
           obj.health -= this.attack - clsnObj.armor;
           if (obj.health <= 0) {
             clsnObj.body.splice(i, 1);

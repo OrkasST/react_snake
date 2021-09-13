@@ -5,7 +5,7 @@ import { Camera } from './Camera';
 import { UI } from './UI';
 import { ImageLoader } from './ImageLoader';
 import { MapCreator } from './mapCreator';
-import { Apple } from './Apple';
+import { Food } from './Apple';
 import { Enemy } from './Enemy';
 import { Upgrade } from './Upgrade';
 
@@ -28,7 +28,7 @@ const start = (Cnv, WorldMap) => {
   let camera = new Camera();
 
   //food
-  let apple = new Apple();
+  let apple = new Food();
   apple.setSpawnPoint(20, 20, player.spawnPoint);
   apple.addSpawnPoint('more_apples', 1200, 1200, player.spawnPoint);
   apple.addSpawnPoint('alotofapples', 2000, 2000, player.spawnPoint);
@@ -36,6 +36,7 @@ const start = (Cnv, WorldMap) => {
   while(apple.body.length < apple.spawnLimit/2) {
     for(let name in apple.spawnPoint) apple.spawnCube(name);
   }
+
 
   //enemies
   let ant = new Enemy();
@@ -45,7 +46,7 @@ const start = (Cnv, WorldMap) => {
     for(let name in ant.spawnPoint) ant.spawnEnemy(name);
   }
 
-  let bigAnt = new Enemy('#000000', 10, 4, 0, 40, 80);
+  let bigAnt = new Enemy('#000000', 10, 5, 2, 40, 80);
   bigAnt.setSpawnPoint(10, 1500, player.spawnPoint, 1200, 15, 2);
 
   while(bigAnt.body.length < 10) {
@@ -54,19 +55,11 @@ const start = (Cnv, WorldMap) => {
 
   //upgrades
   let attackUpgrade = new Upgrade('attackUpgrade');
-  attackUpgrade.setSpawnPoint(100, 100, player.spawnPoint, null, 1, 0);
-  if(player.availableLength > 1) {
-    attackUpgrade.spawnCube(null, 100, 100);
-  } else {
-    attackUpgrade.deleteUpgrade();
-  }
+  attackUpgrade.setSpawnPoint(100, 100, player.spawnPoint, 800, 1, 0);
+
   let armorUpgrade = new Upgrade('armorUpgrade');
-  armorUpgrade.setSpawnPoint(100, 100, player.spawnPoint, null, 1, 0);
-  if(player.availableLength > 1) {
-    armorUpgrade.spawnCube(null, 180, 100);
-  } else {
-    armorUpgrade.deleteUpgrade();
-  }
+  armorUpgrade.setSpawnPoint(100, 100, player.spawnPoint, 800, 1, 0);
+
 
   //UI
   let ui = new UI(screen.width);
@@ -77,6 +70,10 @@ const start = (Cnv, WorldMap) => {
   setInterval( () => {
     for(let name in ant.spawnPoint) ant.spawnEnemy(name);
   }, ant.spawnInterval);
+
+  setInterval( () => {
+    for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
+  }, bigAnt.spawnInterval);
 
   //images
   let images = {};
