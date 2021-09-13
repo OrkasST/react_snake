@@ -21,8 +21,8 @@ export class Cube {
         if (this.spawnPoint[name].toSpawn === 0) {
             if(this.body.length < this.spawnPoint[name].limit) {
                 this.body.push({
-                    x: this.spawnPoint[name].x + Math.floor(Math.random()*this.spawnPoint[name].diameter-(this.spawnPoint[name].diameter/2)) || x,
-                    y: this.spawnPoint[name].y + Math.floor(Math.random()*this.spawnPoint[name].diameter-(this.spawnPoint[name].diameter/2)) || y
+                    x: x || this.spawnPoint[name].x + Math.floor(Math.random()*this.spawnPoint[name].diameter-(this.spawnPoint[name].diameter/2)),
+                    y: y || this.spawnPoint[name].y + Math.floor(Math.random()*this.spawnPoint[name].diameter-(this.spawnPoint[name].diameter/2))
                 });
                 this.spawnPoint[name].toSpawn = this.spawnPoint[name].speed;
             }

@@ -54,12 +54,14 @@ const start = (Cnv, WorldMap) => {
 
   //upgrades
   let attackUpgrade = new Upgrade('attackUpgrade');
+  attackUpgrade.setSpawnPoint(100, 100, player.spawnPoint, null, 1, 0);
   if(player.availableLength > 1) {
     attackUpgrade.spawnCube(null, 100, 100);
   } else {
     attackUpgrade.deleteUpgrade();
   }
   let armorUpgrade = new Upgrade('armorUpgrade');
+  armorUpgrade.setSpawnPoint(100, 100, player.spawnPoint, null, 1, 0);
   if(player.availableLength > 1) {
     armorUpgrade.spawnCube(null, 180, 100);
   } else {
