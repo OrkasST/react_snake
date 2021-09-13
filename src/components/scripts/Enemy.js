@@ -12,7 +12,8 @@ export class Enemy extends Cube {
     }
 
     spawnEnemy(name = 'initial', x, y) {
-        if (this.spawnPoint[name].toSpawn === 0) {
+        if ((this.spawnPoint[name].limit < this.body.length)
+         && (this.spawnPoint[name].toSpawn === 0)) {
             this.body.push({
                 x: this.spawnPoint[name].x
                     + Math.floor(

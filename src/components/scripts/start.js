@@ -40,8 +40,14 @@ const start = (Cnv, WorldMap) => {
   let ant = new Enemy();
   ant.setSpawnPoint(2000, 20, player.spawnPoint, 800, 15, 2);
 
-  while(ant.body.length < ant.spawnLimit) {
+  while(ant.body.length < 10) {
     for(let name in ant.spawnPoint) ant.spawnEnemy(name);
+  }
+
+  let bigAnt = new Enemy('#000000', 10, 4, 0, 40, 80);
+  bigAnt.setSpawnPoint(10, 1500, player.spawnPoint, 1200, 15, 2);
+  while(bigAnt.body.length < 10) {
+    for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
   }
 
   //UI
@@ -60,6 +66,7 @@ const start = (Cnv, WorldMap) => {
     apple : '/images/apple.png',
     map_tiles: '/images/tiles.png',
     ant: '/images/ant.png',
+    bigAnt: '/images/big-ant.png',
     player_head: '/images/snake-head.png',
     player_body: '/images/snake-body.png',
     player_tail: '/images/snake-tail.png'
@@ -70,10 +77,11 @@ const start = (Cnv, WorldMap) => {
     images = Object.assign(images, loader.images)
     apple.setImage(images['apple']);
     ant.setImage(images['ant']);
+    bigAnt.setImage(images['bigAnt']);
     let map = MapCreator(images, WorldMap, player.spawnPoint, screen);
 
     setTimeout(()=>{
-      Game(camera, screen, {player, apple, ui, map, ant});
+      Game(camera, screen, {player, apple, ui, map, ant, bigAnt});
     }, 2000);
   }).catch(error => {
     console.error(error);

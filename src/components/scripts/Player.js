@@ -68,7 +68,8 @@ export class Player {
       direction: direction || Head.direction
     });
     if (!this.checkForCollision(this.body[0], this.size, chknObjects[0], camera) 
-      && !this.checkForCollision(this.body[0], this.size, chknObjects[1], camera) 
+      && !this.checkForCollision(this.body[0], this.size, chknObjects[1], camera)
+      && !this.checkForCollision(this.body[0], this.size, chknObjects[2], camera)
       && this.body.length > this.availableLength) {
         this.body.pop();
     } else if (!this.isAbleToGrow()) {
@@ -109,6 +110,9 @@ export class Player {
             clsnObj.body.splice(i, 1);
             this.mealPoints += clsnObj.health;
             grow = true;
+            if (this.health < this.maxHealth) {
+              this.restoreHealth(Math.floor(clsnObj.health/3));
+            }
           }
           if( this.health <= 0) {
             this.Death(camera);
