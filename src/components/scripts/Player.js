@@ -70,6 +70,8 @@ export class Player {
     if (!this.checkForCollision(this.body[0], this.size, chknObjects[0], camera) 
       && !this.checkForCollision(this.body[0], this.size, chknObjects[1], camera)
       && !this.checkForCollision(this.body[0], this.size, chknObjects[2], camera)
+      && !this.checkForCollision(this.body[0], this.size, chknObjects[3], camera)
+      && !this.checkForCollision(this.body[0], this.size, chknObjects[4], camera)
       && this.body.length > this.availableLength) {
         this.body.pop();
     } else if (!this.isAbleToGrow()) {
@@ -103,6 +105,15 @@ export class Player {
           if (this.health < this.maxHealth) {
             this.restoreHealth(clsnObj.health);
           }
+        } else if (clsnObj.type === 'attackUpgrade') {
+          if(this.availableLength <= 2)clsnObj.body.splice(i, 1);
+          this.upgradeAttack();
+          this.availableLength--;
+        } else if (clsnObj.type === 'armorUpgrade') {
+          if(this.availableLength <= 2)clsnObj.body.splice(i, 1);
+          this.upgradeArmor();
+          this.availableLength--;
+
         } else if (clsnObj.type === 'enemy') {
           this.health -= clsnObj.attack - this.armor;
           obj.health -= this.attack - clsnObj.armor;
@@ -166,6 +177,13 @@ export class Player {
   setSpawnPoint(x, y) {
     this.spawnPoint.x = x;
     this.spawnPoint.y = y;
+  }
+
+  upgradeAttack() {
+    this.attack++;
+  }
+  upgradeArmor() {
+    this.armor++;
   }
 
 }

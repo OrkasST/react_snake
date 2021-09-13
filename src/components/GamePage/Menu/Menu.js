@@ -1,7 +1,10 @@
 import ButtonLink from "../../../btn-link";
 import { MenuContent, MenuLinks, MenuWrapper } from "./menu-style";
 import React from 'react';
-//import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import Settings from "./Settings/Settings";
+import Upgrade from "./Upgrade/Upgrade";
+import Statistic from "./Statistic/Statistic";
 
 const Menu = () => {
     return (
@@ -11,8 +14,12 @@ const Menu = () => {
                 <ButtonLink to='/game/menu/upgrade' gameMenuBtn='true' >Upgrade</ButtonLink>
                 <ButtonLink to='/game/menu/statistic' gameMenuBtn='true' >Statistic</ButtonLink>
                 <ButtonLink to='/game/menu/settings' gameMenuBtn='true' >Settings</ButtonLink>
+                <ButtonLink to='/game' gameMenuBtn='true' >Close</ButtonLink>
             </MenuLinks>
             <MenuContent>
+                <Route path='/game/menu/upgrade' render={ () => <Upgrade /> } />
+                <Route path='/game/menu/statistic' render={ () => <Statistic /> } />
+                <Route path='/game/menu/settings' render={ () => <Settings /> } />
             </MenuContent>
         </MenuWrapper>
     )

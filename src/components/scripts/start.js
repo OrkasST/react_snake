@@ -7,6 +7,7 @@ import { ImageLoader } from './ImageLoader';
 import { MapCreator } from './mapCreator';
 import { Apple } from './Apple';
 import { Enemy } from './Enemy';
+import { Upgrade } from './Upgrade';
 
 const start = (Cnv, WorldMap) => {
   let viewArea = Cnv;
@@ -51,6 +52,20 @@ const start = (Cnv, WorldMap) => {
     for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
   }
 
+  //upgrades
+  let attackUpgrade = new Upgrade('attackUpgrade');
+  if(player.availableLength > 1) {
+    attackUpgrade.spawnCube(null, 100, 100);
+  } else {
+    attackUpgrade.deleteUpgrade();
+  }
+  let armorUpgrade = new Upgrade('armorUpgrade');
+  if(player.availableLength > 1) {
+    armorUpgrade.spawnCube(null, 180, 100);
+  } else {
+    armorUpgrade.deleteUpgrade();
+  }
+
   //UI
   let ui = new UI(screen.width);
   setInterval( () => {
@@ -70,7 +85,9 @@ const start = (Cnv, WorldMap) => {
     bigAnt: '/images/big-ant.png',
     player_head: '/images/snake-head.png',
     player_body: '/images/snake-body.png',
-    player_tail: '/images/snake-tail.png'
+    player_tail: '/images/snake-tail.png',
+    attackUp: '/images/attack.png',
+    armorUp: '/images/armor.png'
   });
   
   
@@ -79,10 +96,12 @@ const start = (Cnv, WorldMap) => {
     apple.setImage(images['apple']);
     ant.setImage(images['ant']);
     bigAnt.setImage(images['bigAnt']);
+    attackUpgrade.setImage(images['attackUp']);
+    armorUpgrade.setImage(images['armorUp']);
     let map = MapCreator(images, WorldMap, player.spawnPoint, screen);
 
     setTimeout(()=>{
-      Game(camera, screen, {player, apple, ui, map, ant, bigAnt});
+      Game(camera, screen, {player, apple, ui, map, ant, bigAnt, attackUpgrade, armorUpgrade});
     }, 2000);
   }).catch(error => {
     console.error(error);

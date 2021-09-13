@@ -5,6 +5,8 @@ export const render = (camera, screen, data) => {
     screen.draw(camera, data.ant);
     screen.draw(camera, data.bigAnt);
     screen.draw(camera, data.player);
+    screen.draw(camera, data.attackUpgrade);
+    screen.draw(camera, data.armorUpgrade);
     screen.drawEnemyHealth(camera, data.ant);
     screen.drawEnemyHealth(camera, data.bigAnt);
     screen.drawUI(data.ui, data.player.mealPoints, data.player.pointsToGrow);

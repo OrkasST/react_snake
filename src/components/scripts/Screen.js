@@ -43,6 +43,9 @@ export class Screen {
     this.ctx.font = '20px serif';
     this.ctx.fillText(`${UI.ammount} / ${UI.maxAmmount}`, UI.border.x + UI.maxAmmount * 10 + 20, UI.y + UI.border.size);
     this.ctx.fillText(`${currentMlP} / ${MlPtoGrow}`, UI.x, UI.textY);
+    this.ctx.fillText(`Upgrade points: ${UI.upgradePoints}`, UI.x, UI.textY+UI.dist);
+    this.ctx.fillText(`Attack: ${UI.attack}`, UI.x, UI.textY+(UI.dist*2));
+    this.ctx.fillText(`Armor: ${UI.armor}`, UI.x, UI.textY+(UI.dist*3));
     this.ctx.closePath();
   }
 

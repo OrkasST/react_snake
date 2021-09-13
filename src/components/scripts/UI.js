@@ -14,11 +14,18 @@ export class UI {
         size: this.size+2
     }
     this.textY = this.y + 32;
+    this.dist = 32;
+    this.upgradePoints = 0;
+    this.attack = 1;
+    this.armor = 1;
   }
 
-  updateUI(maxHealth, health) {
+  updateUI(maxHealth, health, upgradePoints, attack, armor) {
     this.maxAmmount = maxHealth;
     this.ammount = health;
+    this.upgradePoints = upgradePoints;
+    this.attack = attack;
+    this.armor = armor;
   }
 
 }
