@@ -46,6 +46,7 @@ const start = (Cnv, WorldMap) => {
 
   let bigAnt = new Enemy('#000000', 10, 4, 0, 40, 80);
   bigAnt.setSpawnPoint(10, 1500, player.spawnPoint, 1200, 15, 2);
+
   while(bigAnt.body.length < 10) {
     for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
   }

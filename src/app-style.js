@@ -23,6 +23,12 @@ const Wrapper = styled.div`
         border: #000 solid 1px;
         background-color: #000;
     }
+    .gameUI {
+        position: absolute;
+        z-index: 3;
+        top: 2rem;
+        right: 3rem;
+    }
 
     ._hidden {
         display: none;

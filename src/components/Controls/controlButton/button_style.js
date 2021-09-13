@@ -57,6 +57,20 @@ const Button = styled.button`
             }
         }
     };
+
+    ${
+        props => props.pauseBtn && css`
+        right: 9rem;
+        top: 2rem;
+    `
+    }
+
+    ${
+        props => props.resumeBtn && css`
+        right: 15rem;
+        top: 2rem;
+    `
+    }
 `
 
 export default Button;
