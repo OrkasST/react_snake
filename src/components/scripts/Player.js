@@ -25,7 +25,7 @@ export class Player {
     this.speedUpAvailable = true;
     this.mealPoints = mealPoints;
     this.pointsToGrow = 2;
-    this.availableLength = 1;
+    this.availableLength = 10;
     this.head_img = null;
     this.body_img = null;
     this.tail_img = null;
@@ -67,11 +67,10 @@ export class Player {
       y: y,
       direction: direction || Head.direction
     });
-    if (!this.checkForCollision(this.body[0], this.size, chknObjects[0], camera) 
-      && !this.checkForCollision(this.body[0], this.size, chknObjects[1], camera)
-      && !this.checkForCollision(this.body[0], this.size, chknObjects[2], camera)
-      && !this.checkForCollision(this.body[0], this.size, chknObjects[3], camera)
-      && !this.checkForCollision(this.body[0], this.size, chknObjects[4], camera)
+
+    if ( !chknObjects.every( (object, i) => {
+        return !this.checkForCollision(this.body[0], this.size, object, camera, i )
+      })
       && this.body.length > this.availableLength) {
         this.body.pop();
     } else if (!this.isAbleToGrow()) {
@@ -89,7 +88,7 @@ export class Player {
     this.tail_img = tailImg;
   }
 
-  checkForCollision(head, size, clsnObj, camera) {
+  checkForCollision(head, size, clsnObj, camera, i) {
     let grow = false;
     clsnObj.body.forEach((obj, i) => {
       if (
@@ -119,7 +118,7 @@ export class Player {
           }
         } else if (clsnObj.type === 'enemy') {
           this.health -= Math.max(0, (clsnObj.attack - this.armor));
-          obj.health -= this.attack - clsnObj.armor;
+          obj.health -= Math.max(0, (this.attack - clsnObj.armor));
           if (obj.health <= 0) {
             clsnObj.body.splice(i, 1);
             this.mealPoints += clsnObj.health;
@@ -140,7 +139,7 @@ export class Player {
 
   Death(camera) {
     this.mealPoints = 0;
-    this.availableLength = 1;
+    this.availableLength = 10;
     this.maxHealth = 10;
     this.health = this.maxHealth;
     this.body[0].x = this.defaultX;

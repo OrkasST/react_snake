@@ -41,16 +41,20 @@ const start = (Cnv, WorldMap) => {
   //enemies
   let ant = new Enemy();
   ant.setSpawnPoint(2000, 20, player.spawnPoint, 800, 15, 2);
-
   while(ant.body.length < 10) {
     for(let name in ant.spawnPoint) ant.spawnEnemy(name);
   }
 
   let bigAnt = new Enemy('#000000', 10, 5, 2, 40, 80);
   bigAnt.setSpawnPoint(10, 1500, player.spawnPoint, 1200, 15, 2);
-
   while(bigAnt.body.length < 10) {
     for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
+  }
+
+  let scorpio = new Enemy('#FF00FF', 40, 11, 5, 97, 120);
+  scorpio.setSpawnPoint(120, 100, player.spawnPoint, 800, 10, 10);
+  while(scorpio.body.length < 5) {
+    for(let name in scorpio.spawnPoint) scorpio.spawnEnemy(name);
   }
 
   //upgrades
@@ -78,30 +82,39 @@ const start = (Cnv, WorldMap) => {
   //images
   let images = {};
   let loader = new ImageLoader({
+    //food
     apple : '/images/apple.png',
+
+    //map
     map_tiles: '/images/tiles.png',
+
+    //enemies
     ant: '/images/ant.png',
     bigAnt: '/images/big-ant.png',
+    scorpio: '/images/scorpio.png',
+
+    //player
     player_head: '/images/snake-head.png',
     player_body: '/images/snake-body.png',
     player_tail: '/images/snake-tail.png',
+
+    //upgrades
     attackUp: '/images/attack.png',
     armorUp: '/images/armor.png'
   });
-  let itm = localStorage.getItem('name');
-  alert(itm);
   
   loader.loadImages().then(names => {
     images = Object.assign(images, loader.images)
     apple.setImage(images['apple']);
     ant.setImage(images['ant']);
     bigAnt.setImage(images['bigAnt']);
+    scorpio.setImage(images['scorpio']);
     attackUpgrade.setImage(images['attackUp']);
     armorUpgrade.setImage(images['armorUp']);
     let map = MapCreator(images, WorldMap, player.spawnPoint, screen);
 
     setTimeout(()=>{
-      Game(camera, screen, {player, apple, ui, map, ant, bigAnt, attackUpgrade, armorUpgrade});
+      Game(camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});
     }, 2000);
   }).catch(error => {
     console.error(error);
