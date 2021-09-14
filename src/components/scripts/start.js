@@ -88,7 +88,8 @@ const start = (Cnv, WorldMap) => {
     attackUp: '/images/attack.png',
     armorUp: '/images/armor.png'
   });
-  
+  let itm = localStorage.getItem('name');
+  alert(itm);
   
   loader.loadImages().then(names => {
     images = Object.assign(images, loader.images)
