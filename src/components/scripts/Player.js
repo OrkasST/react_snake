@@ -151,7 +151,9 @@ export class Player {
   isAbleToGrow() {
     if (this.mealPoints >= this.pointsToGrow) {
       this.mealPoints -= this.pointsToGrow;
-      this.pointsToGrow = Math.floor(this.pointsToGrow * 1.5);
+      this.pointsToGrow = this.pointsToGrow < 100
+       ? Math.floor(this.pointsToGrow * 1.5)
+       : Math.floor(this.pointsToGrow * 1.2)
       this.availableLength++;
       this.maxHealth++;
       this.isAbleToGrow();
