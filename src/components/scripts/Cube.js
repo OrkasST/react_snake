@@ -31,13 +31,13 @@ export class Cube {
         }
     }
 
-    setSpawnPoint(x, y, playerSpawnPoint, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
-        this.spawnPoint.initial.x = playerSpawnPoint.x > 0
-            ? x - playerSpawnPoint.x
-            : x;
-        this.spawnPoint.initial.y = playerSpawnPoint.y > 0
-        ? y - playerSpawnPoint.y
-        : y;
+    setSpawnPoint(x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+        this.spawnPoint.initial.x = player.spawnPoint.x > 0
+            ? x - player.spawnPoint.x
+            : x - player.defaultX;
+        this.spawnPoint.initial.y = player.spawnPoint.y > 0
+        ? y - player.spawnPoint.y
+        : y - player.defaultY;
         this.spawnPoint.initial.diameter = diameter;
         this.spawnPoint.initial.limit = limit;
         this.spawnPoint.initial.speed = speed;
@@ -54,14 +54,14 @@ export class Cube {
         this.spawnInterval = interval;
     }
 
-    addSpawnPoint(name, x, y, playerSpawnPoint, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+    addSpawnPoint(name, x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
         this.spawnPoint[name] = {};
-        this.spawnPoint[name].x = playerSpawnPoint.x > 0
-            ? x - playerSpawnPoint.x
-            : x;
-        this.spawnPoint[name].y = playerSpawnPoint.y > 0
-        ? y - playerSpawnPoint.y
-        : y;
+        this.spawnPoint[name].x = player.spawnPoint.x > 0
+            ? x - player.spawnPoint.x
+            : x - player.defaultX;
+        this.spawnPoint[name].y = player.spawnPoint.y > 0
+        ? y - player.spawnPoint.y
+        : y - player.defaultY;
         this.spawnPoint[name].diameter = diameter;
         this.spawnPoint[name].limit = limit;
         this.spawnPoint[name].speed = speed;
