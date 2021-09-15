@@ -1,15 +1,15 @@
 export class Cube {
-    constructor(color='#FF0000', size=20, health=1) {
+    constructor(GS, color='#FF0000', size=20, health=1) {
         this.color = color;
-        this.size = size;
+        this.size = size * GS;
         this.spawnLimit = 20;
-        this.spawnDiameter = 600;
+        this.spawnDiameter = 600 * GS;
         this.spawnInterval = 2500;
         this.spawnSpeed = 1;
         this.spawnPoint = {
             initial: {
-                x: 120,
-                y: 120
+                x: 120 * GS,
+                y: 120 * GS
             }
         }
         this.body = [];
@@ -31,22 +31,22 @@ export class Cube {
         }
     }
 
-    setSpawnPoint(x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+    setSpawnPoint(GS, x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
         this.spawnPoint.initial.x = player.spawnPoint.x > 0
-            ? x - player.spawnPoint.x
-            : x - player.defaultX;
+            ? (x - player.spawnPoint.x) * GS
+            : (x - player.defaultX) * GS;
         this.spawnPoint.initial.y = player.spawnPoint.y > 0
-        ? y - player.spawnPoint.y
-        : y - player.defaultY;
-        this.spawnPoint.initial.diameter = diameter;
+        ? (y - player.spawnPoint.y) * GS
+        : (y - player.defaultY) * GS;
+        this.spawnPoint.initial.diameter = diameter * GS;
         this.spawnPoint.initial.limit = limit;
         this.spawnPoint.initial.speed = speed;
         this.spawnPoint.initial.toSpawn = speed;
     }
 
-    setSpawnPapams(name, diameter, limit, speed) {
+    setSpawnPapams(GS, name, diameter, limit, speed) {
         this.spawnPoint[name].limit = limit;
-        this.spawnPoint[name].diameter = diameter;
+        this.spawnPoint[name].diameter = diameter * GS;
         this.spawnPoint[name].speed = speed;
     }
 
@@ -54,15 +54,15 @@ export class Cube {
         this.spawnInterval = interval;
     }
 
-    addSpawnPoint(name, x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+    addSpawnPoint(GS, name, x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
         this.spawnPoint[name] = {};
         this.spawnPoint[name].x = player.spawnPoint.x > 0
-            ? x - player.spawnPoint.x
-            : x - player.defaultX;
+            ? (x - player.spawnPoint.x) * GS
+            : (x - player.defaultX) * GS;
         this.spawnPoint[name].y = player.spawnPoint.y > 0
-        ? y - player.spawnPoint.y
-        : y - player.defaultY;
-        this.spawnPoint[name].diameter = diameter;
+        ? (y - player.spawnPoint.y) * GS
+        : (y - player.defaultY) * GS;
+        this.spawnPoint[name].diameter = diameter * GS;
         this.spawnPoint[name].limit = limit;
         this.spawnPoint[name].speed = speed;
         this.spawnPoint[name].toSpawn = speed;

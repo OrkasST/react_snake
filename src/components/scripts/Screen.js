@@ -6,7 +6,7 @@ export class Screen {
     this.ctx = ctx;
     this.width = width;
     this.height = height;
-    this.globalScale = 1;
+    this.scale = 1;
   }
 
   setScreenSize(width = this.width, height = this.height) {
@@ -20,16 +20,16 @@ export class Screen {
     if (Array.isArray(obj.body)) {
       obj.body.forEach((part) => {
         obj.image ? this.ctx.drawImage(obj.image, part.x + camera.x, part.y + camera.y,
-            (obj.width || obj.size) * this.globalScale, (obj.height || obj.size) * this.globalScale)
+            obj.width || obj.size, obj.height || obj.size)
           : this.ctx.fillRect(part.x + camera.x, part.y + camera.y,
-            (obj.width || obj.size) * this.globalScale, (obj.height || obj.size) * this.globalScale);
+            obj.width || obj.size, obj.height || obj.size);
       });
     } else {
       let body = obj.body;
       obj.image ? this.ctx.drawImage(obj.image, body.x + camera.x, body.y + camera.y,
-        (obj.width || obj.size) * this.globalScale, (obj.height || obj.size) * this.globalScale)
+        obj.width || obj.size, obj.height || obj.size)
         : this.ctx.fillRect(body.x + camera.x, body.y + camera.y,
-          (obj.width || obj.size) * this.globalScale, (obj.height || obj.size) * this.globalScale);
+          obj.width || obj.size, obj.height || obj.size);
     }
     this.ctx.closePath();
   }
@@ -37,16 +37,16 @@ export class Screen {
   drawUI(UI, currentMlP, MlPtoGrow) {
     this.ctx.beginPath();
     this.ctx.fillStyle = UI.borderColor;
-    this.ctx.fillRect(UI.border.x, UI.border.y, UI.maxAmmount * (100/UI.maxAmmount) + 2, UI.border.size);
+    this.ctx.fillRect(UI.border.x, UI.border.y, 102, UI.border.size);
     this.ctx.closePath();
     this.ctx.beginPath();
     this.ctx.fillStyle = UI.healthColor;
-    this.ctx.fillRect(UI.x, UI.y, UI.ammount * (100/UI.ammount), UI.size);
+    this.ctx.fillRect(UI.x, UI.y, UI.ammount * (100 / UI.maxAmmount), UI.size);
     this.ctx.closePath();
     this.ctx.beginPath();
     this.ctx.fillStyle = UI.textColor;
     this.ctx.font = '20px serif';
-    this.ctx.fillText(`${UI.ammount} / ${UI.maxAmmount}`, UI.border.x + UI.maxAmmount * 10 + 20, UI.y + UI.border.size);
+    this.ctx.fillText(`${UI.ammount} / ${UI.maxAmmount}`, UI.border.x + 122, UI.y + UI.border.size);
     this.ctx.fillText(`${currentMlP} / ${MlPtoGrow}`, UI.x, UI.textY);
     this.ctx.fillText(`Upgrade points: ${UI.upgradePoints}`, UI.x, UI.textY + UI.dist);
     this.ctx.fillText(`Attack: ${UI.attack}`, UI.x, UI.textY + (UI.dist * 2));
@@ -85,7 +85,7 @@ export class Screen {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 
-  createMap(name, mapData, tileset, images, mapScreen, playerSpawnPoint, playerDefaultX, playerDefaultY) {
+  createMap(GS, name, mapData, tileset, images, mapScreen, playerSpawnPoint, playerDefaultX, playerDefaultY) {
     //const mapImage = document.createElement('canvas');
     mapScreen.width = mapData.width * mapData.tilewidth;
     mapScreen.height = mapData.height * mapData.tileheight;
@@ -130,19 +130,20 @@ export class Screen {
     return {
       body: {
         x: playerSpawnPoint.x > 0
-          ? 0 - playerSpawnPoint.x
-          : playerDefaultX - 2004,
+          ? (0 - playerSpawnPoint.x) * GS
+          : (playerDefaultX - 2004) * GS,
         y: playerSpawnPoint.y > 0
-          ? 0 - playerSpawnPoint.y
-          : playerDefaultY - 1536
+          ? (0 - playerSpawnPoint.y) * GS
+          : (playerDefaultY - 1536) * GS
       },
       image: mapScreen,
-      width: mapScreen.width,
-      height: mapScreen.height
+      width: mapScreen.width * GS,
+      height: mapScreen.height * GS
     }
   }
 
   setScale(scale) {
-    this.globalScale = scale;
+    this.scale = scale;
   }
+
 }

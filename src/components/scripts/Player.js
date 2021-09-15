@@ -1,5 +1,6 @@
 export class Player {
   constructor(
+    GS,
     x = 100,
     y = 100,
     speed = 2,
@@ -15,7 +16,7 @@ export class Player {
     this.defaultY = y;
     this.body = [this.head];
     this.speed = speed;
-    this.size = size;
+    this.size = size * GS;
     this.color = color;
     this.headColor = headColor;
     this.maxHealth = maxHealth;

@@ -17,22 +17,26 @@ const start = (Cnv, WorldMap) => {
   let screen = new Screen({viewArea, ctx});
   screen.setScreenSize();
   screen.onLoading();
+  let GlobalScale = 1;
+
+  if (screen.height <= 700) {
+    GlobalScale = 0.5;
+  }
 
   //player
   let player = screen.height <= 700
-   ? new Player(screen.width/2, 150)
-   : new Player(screen.width/2, screen.height/2);
-  player.setSpawnPoint(150, 150);
+   ? new Player(GlobalScale, screen.width/2, 150)
+   : new Player(GlobalScale, screen.width/2, screen.height/2);
+  //player.setSpawnPoint(150, 150);
 
-  screen.setScale(2);
   //camera
   let camera = new Camera();
 
   //food
-  let apple = new Food();
-  apple.setSpawnPoint(20, 20, player);
-  apple.addSpawnPoint('more_apples', 1200, 1200, player);
-  apple.addSpawnPoint('alotofapples', 2000, 2000, player);
+  let apple = new Food(GlobalScale);
+  apple.setSpawnPoint(GlobalScale, 20, 20, player);
+  apple.addSpawnPoint(GlobalScale, 'more_apples', 1200, 1200, player);
+  apple.addSpawnPoint(GlobalScale, 'alotofapples', 2000, 2000, player);
   
   while(apple.body.length < apple.spawnLimit/2) {
     for(let name in apple.spawnPoint) apple.spawnCube(name);
@@ -40,30 +44,30 @@ const start = (Cnv, WorldMap) => {
 
 
   //enemies
-  let ant = new Enemy();
-  ant.setSpawnPoint(2000, 20, player, 800, 15, 2);
+  let ant = new Enemy(GlobalScale);
+  ant.setSpawnPoint(GlobalScale, 2000, 20, player, 800, 15, 2);
   while(ant.body.length < 10) {
     for(let name in ant.spawnPoint) ant.spawnEnemy(name);
   }
 
-  let bigAnt = new Enemy('#000000', 10, 5, 2, 40, 80);
-  bigAnt.setSpawnPoint(10, 1500, player, 1200, 15, 2);
+  let bigAnt = new Enemy(GlobalScale, '#000000', 10, 5, 2, 40, 80);
+  bigAnt.setSpawnPoint(GlobalScale, 10, 1500, player, 1200, 15, 2);
   while(bigAnt.body.length < 10) {
     for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
   }
 
-  let scorpio = new Enemy('#FF00FF', 40, 11, 5, 97, 120);
-  scorpio.setSpawnPoint(120, 100, player, 800, 10, 10);
+  let scorpio = new Enemy(GlobalScale, '#FF00FF', 40, 11, 5, 97, 120);
+  scorpio.setSpawnPoint(GlobalScale, 120, 100, player, 800, 10, 10);
   while(scorpio.body.length < 5) {
     for(let name in scorpio.spawnPoint) scorpio.spawnEnemy(name);
   }
 
   //upgrades
-  let attackUpgrade = new Upgrade('attackUpgrade');
-  attackUpgrade.setSpawnPoint(100, 100, player, 800, 1, 0);
+  let attackUpgrade = new Upgrade(GlobalScale, 'attackUpgrade');
+  attackUpgrade.setSpawnPoint(GlobalScale, 100, 100, player, 800, 1, 0);
 
-  let armorUpgrade = new Upgrade('armorUpgrade');
-  armorUpgrade.setSpawnPoint(100, 100, player, 800, 1, 0);
+  let armorUpgrade = new Upgrade(GlobalScale, 'armorUpgrade');
+  armorUpgrade.setSpawnPoint(GlobalScale, 100, 100, player, 800, 1, 0);
 
 
   //UI
@@ -112,7 +116,7 @@ const start = (Cnv, WorldMap) => {
     scorpio.setImage(images['scorpio']);
     attackUpgrade.setImage(images['attackUp']);
     armorUpgrade.setImage(images['armorUp']);
-    let map = MapCreator(images, WorldMap, player.spawnPoint, player.defaultX, player.defaultY, screen);
+    let map = MapCreator(GlobalScale, images, WorldMap, player.spawnPoint, player.defaultX, player.defaultY, screen);
 
     setTimeout(()=>{
       Game(camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});

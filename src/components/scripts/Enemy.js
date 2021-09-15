@@ -1,14 +1,14 @@
 import { Cube } from "./Cube";
 
 export class Enemy extends Cube {
-    constructor(color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40) {
-        super(color, null, health);
+    constructor(GS, color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40) {
+        super(GS, color, null, health);
         this.type = 'enemy';
         //this.currentHealth = health;
         this.armor = armor;
         this.attack = attack;
-        this.width = width;
-        this.height = height;
+        this.width = width * GS;
+        this.height = height * GS;
     }
 
     spawnEnemy(name = 'initial', x, y) {
