@@ -36,7 +36,7 @@ export class Cube {
         this.spawnInterval = interval;
     }
 
-    addSpawnPoint(GS, name = 'initial', x, y, mapXY, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+    addSpawnPoint({GS, name, x, y, mapXY, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed}) {
         this.spawnPoint[name] = {};
         this.spawnPoint[name].x = mapXY.x + x;
         this.spawnPoint[name].y = mapXY.y + y;

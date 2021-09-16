@@ -24,7 +24,8 @@ export class Enemy extends Cube {
                         Math.random() * this.spawnPoint[name].diameter - (this.spawnPoint[name].diameter / 2)
                     ) || y,
                 health: this.health
-            })
+            });
+            this.spawnPoint[name].toSpawn = this.spawnPoint[name].speed;
         } else if (this.spawnPoint[name].toSpawn > 0) {
             this.spawnPoint[name].toSpawn--;
         }

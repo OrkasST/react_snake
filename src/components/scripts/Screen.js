@@ -18,12 +18,25 @@ export class Screen {
     this.ctx.beginPath();
     this.ctx.fillStyle = obj.color;
     if (Array.isArray(obj.body)) {
-      obj.body.forEach((part) => {
-        obj.image ? this.ctx.drawImage(obj.image, part.x + camera.x, part.y + camera.y,
+      //obj.body.forEach((part) => {
+      for (let i = obj.body.length-1; i >= 0; i --) {
+        let part = obj.body[i];
+        if (part.draw === true || !part.hasOwnProperty('draw')) {
+          obj.image ? this.ctx.drawImage(obj.image,
+          (part.sx * (obj.width || obj.size)) || 0, (part.sy * (obj.height || obj.size)) || 0,
+            obj.width || obj.size, obj.height || obj.size,
+            part.x + camera.x, part.y + camera.y,
+            obj.width || obj.size, obj.height || obj.size)
+          : part.image ? this.ctx.drawImage(part.image,
+            (part.sx * (obj.width || obj.size)) || 0, (part.sy * (obj.height || obj.size)) || 0, 
+            obj.width || obj.size, obj.height || obj.size,
+            part.x + camera.x, part.y + camera.y,
             obj.width || obj.size, obj.height || obj.size)
           : this.ctx.fillRect(part.x + camera.x, part.y + camera.y,
             obj.width || obj.size, obj.height || obj.size);
-      });
+        }
+      //});
+      }
     } else {
       let body = obj.body;
       obj.image ? this.ctx.drawImage(obj.image, body.x + camera.x, body.y + camera.y,

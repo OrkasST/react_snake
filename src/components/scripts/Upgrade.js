@@ -6,9 +6,6 @@ export class Upgrade extends Cube {
         this.type = type;
         this.size = 42 * GS;
     }
-    show(x, y) {
-      this.spawnCube(null, x, y);
-    }
 
     deleteUpgrade() {
         this.body = [];

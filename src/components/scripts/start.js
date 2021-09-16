@@ -8,6 +8,7 @@ import { MapCreator } from './mapCreator';
 import { Food } from './Apple';
 import { Enemy } from './Enemy';
 import { Upgrade } from './Upgrade';
+import { Spawner } from './spawner';
 
 const start = (Cnv, WorldMap) => {
   let viewArea = Cnv;
@@ -47,30 +48,33 @@ const start = (Cnv, WorldMap) => {
 
   //upgrades
   let attackUpgrade = new Upgrade(GlobalScale, 'attackUpgrade');
-  attackUpgrade.addSpawnPoint(GlobalScale, 'initial', player.spawnPoint.x, player.spawnPoint.y, {x: screen.mapX, y: screen.mapY}, 800, 1, 0);
+  attackUpgrade.addSpawnPoint({
+    GS: GlobalScale, 
+    name: 'initial', 
+    x: player.spawnPoint.x, 
+    y: player.spawnPoint.y, 
+    mapXY : {x: screen.mapX, y: screen.mapY}, 
+    diameter: 800, 
+    limit: 1, 
+    speed: 0
+  });
 
   let armorUpgrade = new Upgrade(GlobalScale, 'armorUpgrade');
-  armorUpgrade.addSpawnPoint(GlobalScale, 'initial', player.spawnPoint.x, player.spawnPoint.y, {x: screen.mapX, y: screen.mapY}, 800, 1, 0);
+  armorUpgrade.addSpawnPoint({
+    GS: GlobalScale, 
+    name: 'initial', 
+    x: player.spawnPoint.x, 
+    y: player.spawnPoint.y, 
+    mapXY : {x: screen.mapX, y: screen.mapY}, 
+    diameter: 800, 
+    limit: 1, 
+    speed: 0
+  });
 
 
   //UI
   let ui = new UI(screen.width);
-  setInterval( () => {
-    for(let name in apple.spawnPoint) apple.spawnCube(name);
-  }, apple.spawnInterval);
-
-  setInterval( () => {
-    for(let name in ant.spawnPoint) ant.spawnEnemy(name);
-  }, ant.spawnInterval);
-
-  setInterval( () => {
-    for(let name in bigAnt.spawnPoint) bigAnt.spawnEnemy(name);
-  }, bigAnt.spawnInterval);
-
-  setInterval( () => {
-    for(let name in scorpio.spawnPoint) scorpio.spawnEnemy(name);
-  }, scorpio.spawnInterval);
-
+    
   //images
   let images = {};
   let loader = new ImageLoader({
@@ -87,7 +91,7 @@ const start = (Cnv, WorldMap) => {
 
     //player
     player_head: '/images/snake-head.png',
-    player_body: '/images/snake-body.png',
+    player_body: '/images/snake-body_n.png',
     player_tail: '/images/snake-tail.png',
 
     //upgrades
@@ -103,20 +107,57 @@ const start = (Cnv, WorldMap) => {
     scorpio.setImage(images['scorpio']);
     attackUpgrade.setImage(images['attackUp']);
     armorUpgrade.setImage(images['armorUp']);
+    player.setImages(images['player_head'], images['player_body'], images['player_tail']);
     let map = MapCreator(GlobalScale, images, WorldMap, screen);
 
     map.spawnPoints.AppleSpawnPoints.forEach((point, i) => {
-      apple.addSpawnPoint(GlobalScale, i, point.x, point.y, {x: screen.mapX, y: screen.mapY});
+      apple.addSpawnPoint({
+        GS: GlobalScale,
+        name: i, 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        limit: 20,
+        speed: 2
+      });
     });
     map.spawnPoints.AntsSpawnPoints.forEach((point, i) => {
-      ant.addSpawnPoint(GlobalScale, i, point.x, point.y, {x: screen.mapX, y: screen.mapY});
+      ant.addSpawnPoint({
+        GS: GlobalScale,
+        name: i, 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        limit: 20,
+        speed: 3
+      });
     });
     map.spawnPoints.BigAntsSpawnPoints.forEach((point, i) => {
-      bigAnt.addSpawnPoint(GlobalScale, i, point.x, point.y, {x: screen.mapX, y: screen.mapY});
+      bigAnt.addSpawnPoint({
+        GS: GlobalScale,
+        name: i, 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        limit: 15,
+        speed: 5
+      });
     });
     map.spawnPoints.ScorpiosSpawnPoints.forEach((point, i) => {
-      scorpio.addSpawnPoint(GlobalScale, i, point.x, point.y, {x: screen.mapX, y: screen.mapY});
+      scorpio.addSpawnPoint({
+        GS: GlobalScale,
+        name: i, 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        limit: 10,
+        speed: 40
+      });
     });
+
+    setInterval( () => {
+      Spawner([apple, ant, bigAnt, scorpio]);
+    }, 2000);
 
     setTimeout(()=>{
       Game(camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});

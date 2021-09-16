@@ -11,7 +11,7 @@ export class Player {
     maxHealth = 10,
     mealPoints = 0
   ) {
-    this.head = { x: x, y: y, direction: direction };
+    this.head = { x: x, y: y, direction: direction, sx: 0};
     this.defaultX = x;
     this.defaultY = y;
     this.body = [this.head];
@@ -36,12 +36,15 @@ export class Player {
       x: 0,
       y: 0
     }
+    this.log = true;
+    this.toLog = 1000;
   }
 
   update(camera, direction, chknObjects, speed) {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
+    let sx, sy;
     if (speed) {
       this.speedUp();
     }
@@ -49,18 +52,37 @@ export class Player {
       case 'left':
         x -= this.speed;
         camera.x += this.speed;
+        sx = 2; 
+        this.body[0].direction === 'left'
+          ? this.body[0].sy = 0
+          : this.body[0].sy = 1
         break;
       case 'right':
         x += this.speed;
         camera.x -= this.speed;
+        sx = 1;
+        this.body[0].direction === 'right'
+          ? this.body[0].sy = 0
+          : this.body[0].sy = 2
+        //this.body[0].sy = 2;
         break;
       case 'down':
         y += this.speed;
         camera.y -= this.speed;
+        sx = 3;
+        this.body[0].direction === 'down'
+          ? this.body[0].sy = 0
+          : this.body[0].sy = 1
+        // this.body[0].sy = 1;
         break;
       case 'up':
         y -= this.speed;
         camera.y += this.speed;
+        sx = 0;
+        this.body[0].direction === 'up'
+          ? this.body[0].sy = 0
+          : this.body[0].sy = 2
+        // this.body[0].sy = 2;
         break;
       default:
         break;
@@ -68,7 +90,9 @@ export class Player {
     this.body.unshift({
       x: x,
       y: y,
-      direction: direction || Head.direction
+      direction: direction || Head.direction,
+      sx: sx,
+      sy: sy
     });
 
     if (!chknObjects.every((object, i) => {
@@ -83,12 +107,28 @@ export class Player {
         }
       }
     }
+    this.body.forEach( (part, i) => this.bindImages(part, i) );
   }
 
   setImages(headImg, bodyImg, tailImg) {
     this.head_img = headImg;
     this.body_img = bodyImg;
     this.tail_img = tailImg;
+  }
+
+  bindImages(part, i) {
+    if (i === 0 ) {
+      part.image = this.head_img;
+      part.draw = true;
+    } else if (i === this.body.length-1) {
+      part.image = this.tail_img;
+      part.draw = true;
+    } else if (i % 5 === 0) {
+      part.draw = true;
+      part.image = this.body_img;
+    } else {
+      part.draw = false;
+    }
   }
 
   checkForCollision(head, size, clsnObj, camera, i) {
