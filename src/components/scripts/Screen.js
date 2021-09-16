@@ -14,7 +14,7 @@ export class Screen {
     this.viewArea.height = height;
   }
 
-  draw(camera, obj) {
+  draw(GS, camera, obj) {
     this.ctx.beginPath();
     this.ctx.fillStyle = obj.color;
     if (Array.isArray(obj.body)) {
@@ -23,13 +23,11 @@ export class Screen {
         let part = obj.body[i];
         if (part.draw === true || !part.hasOwnProperty('draw')) {
           obj.image ? this.ctx.drawImage(obj.image,
-          (part.sx * (obj.width || obj.size)) || 0, (part.sy * (obj.height || obj.size)) || 0,
-            obj.width || obj.size, obj.height || obj.size,
             part.x + camera.x, part.y + camera.y,
             obj.width || obj.size, obj.height || obj.size)
           : part.image ? this.ctx.drawImage(part.image,
-            (part.sx * (obj.width || obj.size)) || 0, (part.sy * (obj.height || obj.size)) || 0, 
-            obj.width || obj.size, obj.height || obj.size,
+            (part.sx * (obj.width || obj.size) / GS) || 0, (part.sy * (obj.height || obj.size) / GS) || 0, 
+            obj.width / GS || obj.size / GS, obj.height / GS || obj.size / GS,
             part.x + camera.x, part.y + camera.y,
             obj.width || obj.size, obj.height || obj.size)
           : this.ctx.fillRect(part.x + camera.x, part.y + camera.y,

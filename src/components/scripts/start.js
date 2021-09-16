@@ -160,7 +160,7 @@ const start = (Cnv, WorldMap) => {
     }, 2000);
 
     setTimeout(()=>{
-      Game(camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});
+      Game(GlobalScale, camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});
     }, 2000);
   }).catch(error => {
     console.error(error);

@@ -38,8 +38,8 @@ export class Cube {
 
     addSpawnPoint({GS, name, x, y, mapXY, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed}) {
         this.spawnPoint[name] = {};
-        this.spawnPoint[name].x = mapXY.x + x;
-        this.spawnPoint[name].y = mapXY.y + y;
+        this.spawnPoint[name].x = mapXY.x + x*GS;
+        this.spawnPoint[name].y = mapXY.y + y*GS;
         this.spawnPoint[name].diameter = diameter * GS;
         this.spawnPoint[name].limit = limit;
         this.spawnPoint[name].speed = speed;

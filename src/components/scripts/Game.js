@@ -7,9 +7,9 @@ let backUpScreen, backUpCamera, backUpData;
 
 export let pause;
 
-export const Game = (camera, screen, data) => {
+export const Game = (GS, camera, screen, data) => {
   update(camera, data, direction, speedUp);
-  render(camera, screen, data);
+  render(GS, camera, screen, data);
   // if (log) {
   //   console.log(data.player);
   //   console.log(data.apple);
@@ -20,7 +20,7 @@ export const Game = (camera, screen, data) => {
     Pause(camera, screen, data);
   }
   
-  id = requestAnimationFrame(() => { Game(camera, screen, data) });
+  id = requestAnimationFrame(() => { Game(GS, camera, screen, data) });
 }
 
 export const Pause = (camera, screen, data) => {
