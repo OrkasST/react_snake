@@ -15,7 +15,7 @@ export class Player {
     this.defaultX = x;
     this.defaultY = y;
     this.body = [this.head];
-    this.speed = speed;
+    this.speed = speed * GS;
     this.size = size * GS;
     this.color = color;
     this.headColor = headColor;
@@ -30,6 +30,8 @@ export class Player {
     this.head_img = null;
     this.body_img = null;
     this.tail_img = null;
+    this.UpgradeAtt = true;
+    this.UpgardeArm = true;
     this.spawnPoint = {
       x: 0,
       y: 0
@@ -69,17 +71,17 @@ export class Player {
       direction: direction || Head.direction
     });
 
-    if ( !chknObjects.every( (object, i) => {
-        return !this.checkForCollision(this.body[0], this.size, object, camera, i )
-      })
+    if (!chknObjects.every((object, i) => {
+      return !this.checkForCollision(this.body[0], this.size, object, camera, i)
+    })
       && this.body.length > this.availableLength) {
-        this.body.pop();
+      this.body.pop();
     } else if (!this.isAbleToGrow()) {
-      if (this.body.length > this.availableLength){
-        while(this.body.length > this.availableLength) {
+      if (this.body.length > this.availableLength) {
+        while (this.body.length > this.availableLength) {
           this.body.pop();
         }
-      } 
+      }
     }
   }
 
@@ -106,29 +108,32 @@ export class Player {
             this.restoreHealth(clsnObj.health);
           }
         } else if (clsnObj.type === 'attackUpgrade') {
-          if(this.availableLength <= 2)clsnObj.body.splice(i, 1);
-          if(this.availableLength > 1) {
+          clsnObj.body.splice(i, 1);
+          if (this.availableLength > 1) {
             this.upgradeAttack();
             this.availableLength--;
           }
         } else if (clsnObj.type === 'armorUpgrade') {
-          if(this.availableLength <= 2)clsnObj.body.splice(i, 1);
-          if(this.availableLength > 1) {
+          clsnObj.body.splice(i, 1);
+          if (this.availableLength > 1) {
             this.upgradeArmor();
             this.availableLength--;
+            this.UpgradeArm = false;
           }
         } else if (clsnObj.type === 'enemy') {
-          this.health -= Math.max(0, (clsnObj.attack - this.armor));
           obj.health -= Math.max(0, (this.attack - clsnObj.armor));
+          this.health -= Math.max(0, (clsnObj.attack - this.armor));
           if (obj.health <= 0) {
             clsnObj.body.splice(i, 1);
             this.mealPoints += clsnObj.health;
             grow = true;
             if (this.health < this.maxHealth) {
-              this.restoreHealth(Math.floor(clsnObj.health/3));
+              this.restoreHealth(Math.floor(clsnObj.health / 3));
             }
+          } else {
+            this.health -= Math.max(0, (clsnObj.attack - this.armor));
           }
-          if( this.health <= 0) {
+          if (this.health <= 0) {
             this.Death(camera);
           }
 
@@ -153,8 +158,8 @@ export class Player {
     if (this.mealPoints >= this.pointsToGrow) {
       this.mealPoints -= this.pointsToGrow;
       this.pointsToGrow = this.pointsToGrow < 100
-       ? Math.floor(this.pointsToGrow * 1.5)
-       : Math.floor(this.pointsToGrow * 1.2)
+        ? Math.floor(this.pointsToGrow * 1.5)
+        : Math.floor(this.pointsToGrow * 1.2)
       this.availableLength++;
       this.maxHealth++;
       this.isAbleToGrow();
@@ -163,14 +168,18 @@ export class Player {
   }
 
   speedUp() {
-    this.speed = 4;
-    setTimeout(() => {
-      this.speed = 2;
+    if (this.speedUpAvailable) {
+      let defaultSpeed = this.speed;
+      let speedUp = this.speed * 2;
+      this.speed = speedUp;
       this.speedUpAvailable = false;
       setTimeout(() => {
-        this.speedUpAvailable = true;
-      }, 2000);
-    }, 1000);
+        this.speed = defaultSpeed;
+        setTimeout(() => {
+          this.speedUpAvailable = true;
+        }, 2000);
+      }, 1000);
+    }
   }
 
   restoreHealth(mealHealth) {

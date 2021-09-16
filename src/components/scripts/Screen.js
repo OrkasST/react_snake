@@ -85,12 +85,21 @@ export class Screen {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 
+  setMapPosition(GS, player) {
+    this.mapX = player.spawnPoint.x > 0
+      ? player.defaultX - (player.spawnPoint.x * GS)
+      : player.defaultX - (2004 * GS); //2004
+    this.mapY = player.spawnPoint.y > 0
+      ? player.defaultY - (player.spawnPoint.y * GS)
+      : player.defaultY - (1536 * GS)  //1536
+}
+
   createMap(GS, name, mapData, tileset, images, mapScreen, playerSpawnPoint, playerDefaultX, playerDefaultY) {
-    //const mapImage = document.createElement('canvas');
     mapScreen.width = mapData.width * mapData.tilewidth;
     mapScreen.height = mapData.height * mapData.tileheight;
     const mapContext = mapScreen.getContext('2d');
-    const hitboxes = [];
+    //const hitboxes = [];
+    const spawnPoints = [];
     let row, col;
     mapData.layers.forEach(layer => {
       if (layer.type === "tilelayer") {
@@ -113,7 +122,8 @@ export class Screen {
         });
       }
       if (layer.type === "objectgroup") {
-        hitboxes.push(...layer.objects.map(obj => ({ x1: obj.x, x2: obj.x + obj.width, y1: obj.y, y2: obj.y + obj.height })));
+        //hitboxes.push(...layer.objects.map(obj => ({ x1: obj.x, x2: obj.x + obj.width, y1: obj.y, y2: obj.y + obj.height })));
+        spawnPoints[layer.name] = [ ...layer.objects.map(obj => ({ x: obj.x, y: obj.y })) ];
       }
     });
 
@@ -129,16 +139,13 @@ export class Screen {
 
     return {
       body: {
-        x: playerSpawnPoint.x > 0
-          ? (0 - playerSpawnPoint.x) * GS
-          : (playerDefaultX - 2004) * GS,
-        y: playerSpawnPoint.y > 0
-          ? (0 - playerSpawnPoint.y) * GS
-          : (playerDefaultY - 1536) * GS
+        x: this.mapX,
+        y: this.mapY
       },
       image: mapScreen,
       width: mapScreen.width * GS,
-      height: mapScreen.height * GS
+      height: mapScreen.height * GS,
+      spawnPoints: spawnPoints
     }
   }
 

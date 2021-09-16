@@ -6,12 +6,7 @@ export class Cube {
         this.spawnDiameter = 600 * GS;
         this.spawnInterval = 2500;
         this.spawnSpeed = 1;
-        this.spawnPoint = {
-            initial: {
-                x: 120 * GS,
-                y: 120 * GS
-            }
-        }
+        this.spawnPoint = {};
         this.body = [];
         this.health = health;
         this.image = null;
@@ -31,37 +26,20 @@ export class Cube {
         }
     }
 
-    setSpawnPoint(GS, x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
-        this.spawnPoint.initial.x = player.spawnPoint.x > 0
-            ? (x - player.spawnPoint.x) * GS
-            : (x - player.defaultX) * GS;
-        this.spawnPoint.initial.y = player.spawnPoint.y > 0
-        ? (y - player.spawnPoint.y) * GS
-        : (y - player.defaultY) * GS;
-        this.spawnPoint.initial.diameter = diameter * GS;
-        this.spawnPoint.initial.limit = limit;
-        this.spawnPoint.initial.speed = speed;
-        this.spawnPoint.initial.toSpawn = speed;
-    }
-
     setSpawnPapams(GS, name, diameter, limit, speed) {
         this.spawnPoint[name].limit = limit;
         this.spawnPoint[name].diameter = diameter * GS;
         this.spawnPoint[name].speed = speed;
     }
 
-    setApawnInterval( interval) {
+    setApawnInterval(interval) {
         this.spawnInterval = interval;
     }
 
-    addSpawnPoint(GS, name, x, y, player, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
+    addSpawnPoint(GS, name = 'initial', x, y, mapXY, diameter = this.spawnDiameter, limit = this.spawnLimit, speed = this.spawnSpeed) {
         this.spawnPoint[name] = {};
-        this.spawnPoint[name].x = player.spawnPoint.x > 0
-            ? (x - player.spawnPoint.x) * GS
-            : (x - player.defaultX) * GS;
-        this.spawnPoint[name].y = player.spawnPoint.y > 0
-        ? (y - player.spawnPoint.y) * GS
-        : (y - player.defaultY) * GS;
+        this.spawnPoint[name].x = mapXY.x + x;
+        this.spawnPoint[name].y = mapXY.y + y;
         this.spawnPoint[name].diameter = diameter * GS;
         this.spawnPoint[name].limit = limit;
         this.spawnPoint[name].speed = speed;
