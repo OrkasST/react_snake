@@ -123,7 +123,7 @@ export class Player {
     } else if (i === this.body.length-1) {
       part.image = this.tail_img;
       part.draw = true;
-    } else if (i % 5 === 0) {
+    } else if (i % 4 === 0 && this.body.length - 1 - i >= 4) {
       part.draw = true;
       part.image = this.body_img;
     } else {
@@ -151,13 +151,13 @@ export class Player {
           clsnObj.body.splice(i, 1);
           if (this.availableLength > 1) {
             this.upgradeAttack();
-            this.availableLength--;
+            this.availableLength -= 4;
           }
         } else if (clsnObj.type === 'armorUpgrade') {
           clsnObj.body.splice(i, 1);
           if (this.availableLength > 1) {
             this.upgradeArmor();
-            this.availableLength--;
+            this.availableLength -= 4;
             this.UpgradeArm = false;
           }
         } else if (clsnObj.type === 'enemy') {
@@ -200,7 +200,7 @@ export class Player {
       this.pointsToGrow = this.pointsToGrow < 100
         ? Math.floor(this.pointsToGrow * 1.5)
         : Math.floor(this.pointsToGrow * 1.2)
-      this.availableLength++;
+      this.availableLength += 4;
       this.maxHealth++;
       this.isAbleToGrow();
     }

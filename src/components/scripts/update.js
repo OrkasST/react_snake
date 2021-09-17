@@ -7,5 +7,5 @@ export const update = (camera, data, direction, speedUp) => {
       data.attackUpgrade.deleteUpgrade();
       data.armorUpgrade.deleteUpgrade();
     }
-    data.ui.updateUI(data.player.maxHealth, data.player.health, data.player.availableLength - 10, data.player.attack, data.player.armor);
+    data.ui.updateUI(data.player.maxHealth, data.player.health, Math.floor((data.player.availableLength - 10)/4), data.player.attack, data.player.armor);
 }
