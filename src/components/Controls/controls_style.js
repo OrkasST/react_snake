@@ -10,7 +10,12 @@ const ControlsWrapper = styled.div`
     height: 10rem;  
     display: none;
     @media (max-width: 1000px) {
-        display: block
+        display: block;
+    }
+    @media (max-height: 400px) {
+      left: 70%;
+      transform: scale(0.7);
+      bottom: 0;
     }
 `
 

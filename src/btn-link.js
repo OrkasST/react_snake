@@ -33,6 +33,12 @@ const ButtonLink = styled(NavLink)`
             font-size: 1.2rem;
             padding: 0;
             color: #fff;
+	    @media (max-width: 400px) {
+	      right: 2rem;
+	      top: 1rem;
+	      width: 3.5rem;
+	      height: 1.5rem;
+	    }
         `
     }
 

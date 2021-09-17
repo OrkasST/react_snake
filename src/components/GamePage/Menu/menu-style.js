@@ -12,6 +12,11 @@ export const MenuWrapper = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
+
+    @media (max-width: 400px) {
+      width: 90%;
+      flex-direction: row;
+    }
 `
 
 export const MenuLinks = styled.div`
@@ -20,6 +25,10 @@ export const MenuLinks = styled.div`
     flex-direction: row;
     overflow-y: auto;
     flex: 1;
+
+    @media (max-width: 400px) {
+      flex-direction: column
+    }
 `
 export const MenuContent = styled.div`
     position: relative;
