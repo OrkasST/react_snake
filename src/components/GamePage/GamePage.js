@@ -8,7 +8,7 @@ import Menu from './Menu/Menu';
 //import { Pause, Resume } from '../scripts/Game';
 
 
-const GamePage = () => {
+const GamePage = (props) => {
     
   
     return(
@@ -16,7 +16,7 @@ const GamePage = () => {
             <ButtonLink to='/game/menu' menuBtn='true' >Menu</ButtonLink>
             <Controls changeDirection={changeDirection} />
             <div>
-                <Route path='/game/menu' render={() => <Menu /> } />
+                <Route path='/game/menu' render={() => <Menu state={props.state} dispatch={props.dispatch} /> } />
             </div>
         </div>
     )

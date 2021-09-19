@@ -6,7 +6,7 @@ import Settings from "./Settings/Settings";
 import Upgrade from "./Upgrade/Upgrade";
 import Statistic from "./Statistic/Statistic";
 
-const Menu = () => {
+const Menu = (props) => {
     return (
         <MenuWrapper>
             <MenuLinks>
@@ -18,7 +18,7 @@ const Menu = () => {
             </MenuLinks>
             <MenuContent>
                 <Route path='/game/menu/upgrade' render={ () => <Upgrade /> } />
-                <Route path='/game/menu/statistic' render={ () => <Statistic /> } />
+                <Route path='/game/menu/statistic' render={ () => <Statistic state={props.state.statisticPage} dispatch={props.dispatch} /> } />
                 <Route path='/game/menu/settings' render={ () => <Settings /> } />
             </MenuContent>
         </MenuWrapper>

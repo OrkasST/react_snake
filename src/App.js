@@ -6,7 +6,7 @@ import { changeDirection } from './components/scripts/controls';
 import { Route } from 'react-router-dom';
 import ButtonLink from './btn-link';
 
-function App() {
+const App = (props) => {
   const Cnv = React.createRef();
   const WorldMap = React.createRef();
   const onStartClick = (e) => {
@@ -25,7 +25,7 @@ function App() {
         ref={Cnv}
       ><canvas ref={WorldMap} /></canvas>
       <Route path='/game' render={() => 
-        <GamePage className='gameUI' />
+        <GamePage className='gameUI' state={props.state} dispatch={props.dispatch} />
       } />
       <ButtonLink to='/game' start='true' onClick={onStartClick}  activeClassName='_hidden' >Start</ButtonLink>
       
