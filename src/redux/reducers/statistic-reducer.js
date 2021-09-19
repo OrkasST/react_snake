@@ -1,4 +1,5 @@
 const UPDATE_DEATHS = 'UPDATE-DEATHS';
+const UPDATE_APPLES = 'UPDATE-APPLES';
 
 let initialState = {
   deaths: 0,
@@ -16,6 +17,10 @@ const statisticReducer = (state = initialState, action) => {
     state.deaths = action.number;
     return state;
 
+    case UPDATE_APPLES:
+    state.apples = action.number;
+    return state;
+
     default:
     return state;
   }
@@ -26,6 +31,12 @@ export default statisticReducer;
 export const updateDeaths = (num) => {
   return {
     type: UPDATE_DEATHS,
-    num: num
+    number: num
+  }
+}
+export const updateApples = (num) => {
+  return {
+    type: UPDATE_APPLES,
+    number: num
   }
 }

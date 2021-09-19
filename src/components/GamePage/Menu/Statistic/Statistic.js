@@ -12,7 +12,7 @@ const Statistic = (props) => {
     }
     return (
         <div>
-            Statistic
+            {data}
         </div>
     )
 }

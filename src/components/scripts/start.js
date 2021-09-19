@@ -37,17 +37,36 @@ const start = (Cnv, WorldMap) => {
   let camera = new Camera();
 
   //food
-  let apple = new Food(GlobalScale);
+  let apple = new Food({GS : GlobalScale, name: 'apple'});
   
   //enemies
-  let ant = new Enemy(GlobalScale);
+  let ant = new Enemy({GS : GlobalScale, name: 'ant'});
 
-  let bigAnt = new Enemy(GlobalScale, '#000000', 10, 5, 2, 40, 80);
+  let bigAnt = new Enemy({GS: GlobalScale, 
+    color: '#000000', 
+    health: 10, 
+    attack: 5, 
+    armor: 2, 
+    width: 40, 
+    height: 80,
+    name: 'bigAnt'
+  });
 
-  let scorpio = new Enemy(GlobalScale, '#FF00FF', 40, 11, 5, 97, 120);
+  let scorpio = new Enemy({
+    GS: GlobalScale, 
+    color: '#FF00FF', 
+    health: 40, 
+    attack: 11, 
+    armor: 5, 
+    width: 97, 
+    height: 120
+  });
 
   //upgrades
-  let attackUpgrade = new Upgrade(GlobalScale, 'attackUpgrade');
+  let attackUpgrade = new Upgrade({
+    GS: GlobalScale, 
+    type: 'attackUpgrade'
+  });
   attackUpgrade.addSpawnPoint({
     GS: GlobalScale, 
     name: 'initial', 

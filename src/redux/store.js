@@ -1,5 +1,5 @@
 import { combineReducers, createStore } from 'redux';
-import statisticReducer from './statistic-reducer';
+import statisticReducer from './reducers/statistic-reducer';
 
 let reducers = combineReducers({
   statisticPage: statisticReducer

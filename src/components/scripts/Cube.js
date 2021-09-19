@@ -1,5 +1,5 @@
 export class Cube {
-    constructor(GS, color='#FF0000', size=20, health=1) {
+    constructor({GS, color='#FF0000', size=20, health=1, name=''}) {
         this.color = color;
         this.size = size * GS;
         this.spawnLimit = 20;
@@ -10,6 +10,7 @@ export class Cube {
         this.body = [];
         this.health = health;
         this.image = null;
+        this.name = name;
     }
 
     spawnCube(name = 'initial', x, y) {

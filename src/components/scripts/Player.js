@@ -1,3 +1,6 @@
+import { updateApples } from '../../redux/reducers/statistic-reducer';
+import store from '../../redux/store';
+
 export class Player {
   constructor(
     GS,
@@ -38,6 +41,8 @@ export class Player {
     }
     this.log = true;
     this.toLog = 1000;
+    //statistic
+    this.applesEaten = 0;
   }
 
   update(camera, direction, chknObjects, speed) {
@@ -143,6 +148,9 @@ export class Player {
         if (clsnObj.type === 'food') {
           clsnObj.body.splice(i, 1);
           grow = true;
+          this.applesEaten++;
+          store.dispatch(updateApples(this.applesEaten));
+
           this.mealPoints += clsnObj.health;
           if (this.health < this.maxHealth) {
             this.restoreHealth(clsnObj.health);
