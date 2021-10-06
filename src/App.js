@@ -5,6 +5,7 @@ import start from './components/scripts/start';
 import { changeDirection } from './components/scripts/controls';
 import { Route } from 'react-router-dom';
 import ButtonLink from './btn-link';
+import { SAVE } from './components/scripts/Game';
 
 const App = (props) => {
   const Cnv = React.createRef();
@@ -12,7 +13,11 @@ const App = (props) => {
   const onStartClick = (e) => {
     let viewArea = Cnv.current;
     let currentMap = WorldMap.current;
-    start(viewArea, currentMap);
+    start(viewArea, currentMap, props.state.gameInfo);
+  }
+  const saveGame = () => {
+    Cnv.current.classList.add('_hidden');
+    SAVE();
   }
 
   return (
@@ -25,7 +30,7 @@ const App = (props) => {
         ref={Cnv}
       ><canvas ref={WorldMap} /></canvas>
       <Route path='/game' render={() => 
-        <GamePage className='gameUI' state={props.state} dispatch={props.dispatch} />
+        <GamePage className='gameUI' state={props.state} dispatch={props.dispatch} saveGame={saveGame}/>
       } />
       <ButtonLink to='/game' start='true' onClick={onStartClick}  activeClassName='_hidden' >Start</ButtonLink>
       

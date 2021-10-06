@@ -9,14 +9,16 @@ import Menu from './Menu/Menu';
 
 
 const GamePage = (props) => {
-    
+    const stopPlayer = () => {
+        changeDirection({code : 'KeyM'});
+    }
   
     return(
         <div>
-            <ButtonLink to='/game/menu' menuBtn='true' >Menu</ButtonLink>
+            <ButtonLink to='/game/menu' menuBtn='true' onClick={stopPlayer} >Menu</ButtonLink>
             <Controls changeDirection={changeDirection} />
             <div>
-                <Route path='/game/menu' render={() => <Menu state={props.state} dispatch={props.dispatch} /> } />
+                <Route path='/game/menu' render={() => <Menu state={props.state} dispatch={props.dispatch} saveGame={props.saveGame} /> } />
             </div>
         </div>
     )

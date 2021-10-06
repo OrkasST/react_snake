@@ -1,4 +1,4 @@
-import { updateApples } from '../../redux/reducers/statistic-reducer';
+import { updateApples, updateDeaths } from '../../redux/reducers/statistic-reducer';
 import store from '../../redux/store';
 
 export class Player {
@@ -14,7 +14,7 @@ export class Player {
     maxHealth = 10,
     mealPoints = 0
   ) {
-    this.head = { x: x, y: y, direction: direction, sx: 0};
+    this.head = { x: x, y: y, direction: direction, sx: 0 };
     this.defaultX = x;
     this.defaultY = y;
     this.body = [this.head];
@@ -43,6 +43,7 @@ export class Player {
     this.toLog = 1000;
     //statistic
     this.applesEaten = 0;
+    this.deaths = 0;
   }
 
   update(camera, direction, chknObjects, speed) {
@@ -57,7 +58,7 @@ export class Player {
       case 'left':
         x -= this.speed;
         camera.x += this.speed;
-        sx = 2; 
+        sx = 2;
         this.body[0].direction === 'left'
           ? this.body[0].sy = 0
           : this.body[0].sy = 1
@@ -92,14 +93,15 @@ export class Player {
       default:
         break;
     }
-    this.body.unshift({
-      x: x,
-      y: y,
-      direction: direction || Head.direction,
-      sx: sx,
-      sy: sy
-    });
-
+    if (direction != 'stop') {
+      this.body.unshift({
+        x: x,
+        y: y,
+        direction: direction || Head.direction,
+        sx: sx,
+        sy: sy
+      });
+    }
     if (!chknObjects.every((object, i) => {
       return !this.checkForCollision(this.body[0], this.size, object, camera, i)
     })
@@ -112,7 +114,7 @@ export class Player {
         }
       }
     }
-    this.body.forEach( (part, i) => this.bindImages(part, i) );
+    this.body.forEach((part, i) => this.bindImages(part, i));
   }
 
   setImages(headImg, bodyImg, tailImg) {
@@ -122,10 +124,10 @@ export class Player {
   }
 
   bindImages(part, i) {
-    if (i === 0 ) {
+    if (i === 0) {
       part.image = this.head_img;
       part.draw = true;
-    } else if (i === this.body.length-1) {
+    } else if (i === this.body.length - 1) {
       part.image = this.tail_img;
       part.draw = true;
     } else if (i % 4 === 0 && this.body.length - 1 - i >= 4) {
@@ -140,9 +142,9 @@ export class Player {
     let grow = false;
     clsnObj.body.forEach((obj, i) => {
       if (
-        head.x <= obj.x + (clsnObj.size || clsnObj.width) &&
+        head.x <= obj.x + (clsnObj.width || clsnObj.size) &&
         head.x + size >= obj.x &&
-        head.y <= obj.y + (clsnObj.size || clsnObj.height) &&
+        head.y <= obj.y + (clsnObj.height || clsnObj.size) &&
         head.y + size >= obj.y
       ) {
         if (clsnObj.type === 'food') {
@@ -200,6 +202,8 @@ export class Player {
     this.body[0].y = this.defaultY;
     camera.x = 0;
     camera.y = 0;
+    this.deaths += 1;
+    store.dispatch(updateDeaths(this.deaths));
   }
 
   isAbleToGrow() {
@@ -213,6 +217,10 @@ export class Player {
       this.isAbleToGrow();
     }
     return false;
+  }
+
+  loadBody(loadedBody) {
+    this.body = loadedBody;
   }
 
   speedUp() {

@@ -1,9 +1,12 @@
+import { saveGame } from '../../redux/reducers/gameInfo-reducer';
+import store from '../../redux/store';
 import { direction, speedUp } from './controls';
 import { render } from './render';
 import { update } from './update';
 // let log = true;
 let id;
-let backUpScreen, backUpCamera, backUpData;
+// let backUpScreen, backUpCamera, backUpData;
+let save = false;
 
 export let pause;
 
@@ -15,26 +18,26 @@ export const Game = (GS, camera, screen, data) => {
   //   console.log(data.apple);
   //   log = false;
   // }
-
-  if(pause) {
-    Pause(camera, screen, data);
-  }
-  
-  id = requestAnimationFrame(() => { Game(GS, camera, screen, data) });
-}
-
-export const Pause = (camera, screen, data) => {
-  if (!pause) {
-    pause = true;
+  if (save) {
+    window.cancelAnimationFrame(id);
+    store.dispatch(saveGame(
+      data.player.spawnPoint.x,
+      data.player.spawnPoint.y,
+      camera.x,
+      camera.y,
+      data.player.body,
+      data.apple.body,
+      data.ant.body,
+      data.bigAnt.body,
+      data.scorpio.body
+    ))
+    screen.clear();
+    save = false;
   } else {
-    backUpScreen = screen;
-    backUpCamera = camera;
-    backUpData = data;
-    cancelAnimationFrame(id);
+    id = requestAnimationFrame(() => { Game(GS, camera, screen, data) });
   }
 }
 
-export const Resume = () => {
-  pause = false;
-  Game(backUpCamera, backUpScreen, backUpData);
+export const SAVE = () => {
+  save = true;
 }

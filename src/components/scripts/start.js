@@ -10,7 +10,7 @@ import { Enemy } from './Enemy';
 import { Upgrade } from './Upgrade';
 import { Spawner } from './spawner';
 
-const start = (Cnv, WorldMap) => {
+const start = (Cnv, WorldMap, data) => {
   let viewArea = Cnv;
   let ctx = viewArea.getContext('2d');
   viewArea.classList.remove('_hidden');
@@ -28,19 +28,22 @@ const start = (Cnv, WorldMap) => {
   let player = screen.height <= 700
    ? new Player(GlobalScale, screen.width/2, 150)
    : new Player(GlobalScale, screen.width/2, screen.height/2);
-  player.setSpawnPoint(2004, 1536);
+  player.setSpawnPoint(data.playerSpawnPointX, data.playerSpawnPointY);
+  if (data.gameSaved) player.loadBody(data.playerBody);
 
   //map
   screen.setMapPosition(GlobalScale, player);
 
   //camera
-  let camera = new Camera();
+  let camera = new Camera(data.cameraX, data.cameraY);
 
   //food
   let apple = new Food({GS : GlobalScale, name: 'apple'});
+  apple.body = data.apples;
   
   //enemies
   let ant = new Enemy({GS : GlobalScale, name: 'ant'});
+  ant.body = data.ants;
 
   let bigAnt = new Enemy({GS: GlobalScale, 
     color: '#000000', 
@@ -51,6 +54,7 @@ const start = (Cnv, WorldMap) => {
     height: 80,
     name: 'bigAnt'
   });
+  bigAnt.body = data.bigAnts;
 
   let scorpio = new Enemy({
     GS: GlobalScale, 
@@ -61,35 +65,18 @@ const start = (Cnv, WorldMap) => {
     width: 97, 
     height: 120
   });
+  scorpio.body = data.scorpios;
 
   //upgrades
   let attackUpgrade = new Upgrade({
     GS: GlobalScale, 
     type: 'attackUpgrade'
   });
-  attackUpgrade.addSpawnPoint({
-    GS: GlobalScale, 
-    name: 'initial', 
-    x: player.spawnPoint.x, 
-    y: player.spawnPoint.y, 
-    mapXY : {x: screen.mapX, y: screen.mapY}, 
-    diameter: 800, 
-    limit: 1, 
-    speed: 0
-  });
 
-  let armorUpgrade = new Upgrade(GlobalScale, 'armorUpgrade');
-  armorUpgrade.addSpawnPoint({
-    GS: GlobalScale, 
-    name: 'initial', 
-    x: player.spawnPoint.x, 
-    y: player.spawnPoint.y, 
-    mapXY : {x: screen.mapX, y: screen.mapY}, 
-    diameter: 800, 
-    limit: 1, 
-    speed: 0
+  let armorUpgrade = new Upgrade({
+    GS: GlobalScale,
+    type: 'armorUpgrade'
   });
-
 
   //UI
   let ui = new UI(screen.width);
@@ -110,7 +97,7 @@ const start = (Cnv, WorldMap) => {
 
     //player
     player_head: '/images/snake-head.png',
-    player_body: '/images/snake-body_n.png',
+    player_body: '/images/snake-body_nn.png',
     player_tail: '/images/snake-tail.png',
 
     //upgrades
@@ -128,6 +115,11 @@ const start = (Cnv, WorldMap) => {
     armorUpgrade.setImage(images['armorUp']);
     player.setImages(images['player_head'], images['player_body'], images['player_tail']);
     let map = MapCreator(GlobalScale, images, WorldMap, screen);
+
+    map.spawnPoints.AppleSpawnPoints.forEach((point, i) => {
+      player.setSpawnPoint(point.x, point.y);
+    });
+    screen.setMapPosition(GlobalScale, player);
 
     map.spawnPoints.AppleSpawnPoints.forEach((point, i) => {
       apple.addSpawnPoint({
@@ -174,9 +166,36 @@ const start = (Cnv, WorldMap) => {
       });
     });
 
+    map.spawnPoints.UpgradeSpawnPoint.forEach((point, i) => {
+      attackUpgrade.addSpawnPoint({
+        GS: GlobalScale,
+        name: 'initial', 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        diameter: 800,
+        limit: 1,
+        speed: 0
+      });
+    });
+
+    map.spawnPoints.UpgradeSpawnPoint.forEach((point, i) => {
+      armorUpgrade.addSpawnPoint({
+        GS: GlobalScale,
+        name: 'initial', 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        diameter: 800,
+        limit: 1,
+        speed: 0
+      });
+    });
+
     setInterval( () => {
       Spawner([apple, ant, bigAnt, scorpio]);
     }, 2000);
+    console.log(ant.GS);
 
     setTimeout(()=>{
       Game(GlobalScale, camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});

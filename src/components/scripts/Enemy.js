@@ -2,7 +2,11 @@ import { Cube } from "./Cube";
 
 export class Enemy extends Cube {
     constructor({GS, color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40, name}) {
-        super({GS, color, health, name});
+        super({GS : GS,
+            color : color,
+            health : health,
+            name : name
+        });
         this.type = 'enemy';
         //this.currentHealth = health;
         this.armor = armor;

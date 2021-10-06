@@ -11,7 +11,7 @@ export const MenuWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
+    background: rgba(250, 250, 250, 0.5);
 
     @media (max-width: 400px) {
       width: 90%;

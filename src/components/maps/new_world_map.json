@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"new_world_map.json"
-        }
-    },
  "height":50,
  "infinite":false,
  "layers":[
@@ -108,6 +100,52 @@
         }, 
         {
          "draworder":"topdown",
+         "id":19,
+         "name":"UpgradeSpawnPoint",
+         "objects":[
+                {
+                 "height":0,
+                 "id":14,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1984,
+                 "y":1534
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":20,
+         "name":"PlayerSpawnPoint",
+         "objects":[
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1988,
+                 "y":1534
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":9,
          "name":"AppleSpawnPoints",
          "objects":[
@@ -156,8 +194,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":2666.66666666667,
-                 "y":442.424242424242
+                 "x":2666.67,
+                 "y":442.424
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -179,8 +217,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":2366.66666666667,
-                 "y":827.272727272727
+                 "x":2366.67,
+                 "y":827.273
                 }, 
                 {
                  "height":0,
@@ -191,8 +229,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1172.72727272727,
-                 "y":1772.72727272727
+                 "x":1172.73,
+                 "y":1772.73
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -214,8 +252,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":921.212121212121,
-                 "y":2218.18181818182
+                 "x":921.212,
+                 "y":2218.18
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -248,8 +286,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1121.21212121212,
-                 "y":1069.69696969697
+                 "x":1121.21,
+                 "y":1069.7
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -268,11 +306,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":19,
- "nextobjectid":14,
+ "nextlayerid":21,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"left-up",
- "tiledversion":"1.6.0",
+ "tiledversion":"1.7.2",
  "tileheight":64,
  "tilesets":[
         {

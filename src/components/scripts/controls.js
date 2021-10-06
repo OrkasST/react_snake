@@ -15,6 +15,9 @@ export const changeDirection = (e) => {
         case 'KeyD':
             direction = 'right';
             break;
+        case 'KeyM':
+            direction = 'stop';
+            break;
         case 'KeyE':
             speedUp = true;
             setTimeout(() => {speedUp = false}, 20);

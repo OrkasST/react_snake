@@ -10,7 +10,7 @@ const Menu = (props) => {
     return (
         <MenuWrapper>
             <MenuLinks>
-                <ButtonLink to='/home' gameMenuBtn='true' >Home</ButtonLink>
+                <ButtonLink to='/home' gameMenuBtn='true' onClick={props.saveGame} >Home</ButtonLink>
                 <ButtonLink to='/game/menu/upgrade' gameMenuBtn='true' >Upgrade</ButtonLink>
                 <ButtonLink to='/game/menu/statistic' gameMenuBtn='true' >Statistic</ButtonLink>
                 <ButtonLink to='/game/menu/settings' gameMenuBtn='true' >Settings</ButtonLink>
