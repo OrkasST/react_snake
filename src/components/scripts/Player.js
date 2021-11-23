@@ -93,7 +93,7 @@ export class Player {
       default:
         break;
     }
-    if (direction != 'stop') {
+    if (direction !== 'stop') {
       this.body.unshift({
         x: x,
         y: y,

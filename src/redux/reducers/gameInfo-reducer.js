@@ -26,7 +26,7 @@ const gameInfoReducer = (state = initialState, action) => {
     state.ants = action.ants;
     state.bigAnts = action.bigAnts;
     state.scorpios = action.scorpios;
-
+    break;
     default:
     return state;
   }
