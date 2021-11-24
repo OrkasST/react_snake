@@ -12,7 +12,8 @@ export class Player {
     headColor = 'black',
     direction = 'left',
     maxHealth = 10,
-    mealPoints = 0
+    mealPoints = 0,
+    maxMana = 10
   ) {
     this.head = { x: x, y: y, direction: direction, sx: 0 };
     this.defaultX = x;
@@ -24,6 +25,8 @@ export class Player {
     this.headColor = headColor;
     this.maxHealth = maxHealth;
     this.health = maxHealth;
+    this.maxMana = maxMana;
+    this.mana = maxMana;
     this.armor = 1;
     this.attack = 1;
     this.speedUpAvailable = true;
