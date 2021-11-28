@@ -78,6 +78,11 @@ const start = (Cnv, WorldMap, data) => {
     type: 'armorUpgrade'
   });
 
+  let magicUpgrade = new Upgrade({
+    GS: GlobalScale,
+    type: 'magicUpgrade'
+  });
+
   //UI
   let ui = new UI(screen.width);
     
@@ -99,6 +104,7 @@ const start = (Cnv, WorldMap, data) => {
     player_head: '/images/snake-head.png',
     player_body: '/images/snake-body_nn.png',
     player_tail: '/images/snake-tail.png',
+    magic_ball:  '/images/Magic_ball.png',
 
     //upgrades
     attackUp: '/images/attack.png',
@@ -113,10 +119,10 @@ const start = (Cnv, WorldMap, data) => {
     scorpio.setImage(images['scorpio']);
     attackUpgrade.setImage(images['attackUp']);
     armorUpgrade.setImage(images['armorUp']);
-    player.setImages(images['player_head'], images['player_body'], images['player_tail']);
+    player.setImages(images['player_head'], images['player_body'], images['player_tail'], images['magic_ball']);
     let map = MapCreator(GlobalScale, images, WorldMap, screen);
 
-    map.spawnPoints.AppleSpawnPoints.forEach((point, i) => {
+    map.spawnPoints.PlayerSpawnPoint.forEach((point, i) => {
       player.setSpawnPoint(point.x, point.y);
     });
     screen.setMapPosition(GlobalScale, player);
@@ -192,13 +198,26 @@ const start = (Cnv, WorldMap, data) => {
       });
     });
 
+    map.spawnPoints.UpgradeSpawnPoint.forEach((point, i) => {
+      magicUpgrade.addSpawnPoint({
+        GS: GlobalScale,
+        name: 'initial', 
+        x: point.x, 
+        y: point.y, 
+        mapXY: {x: screen.mapX, y: screen.mapY},
+        diameter: 800,
+        limit: 1,
+        speed: 0
+      });
+    });
+
     setInterval( () => {
       Spawner([apple, ant, bigAnt, scorpio]);
     }, 2000);
     console.log(ant.GS);
 
     setTimeout(()=>{
-      Game(GlobalScale, camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade});
+      Game(GlobalScale, camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade, magicUpgrade});
     }, 2000);
   }).catch(error => {
     console.error(error);

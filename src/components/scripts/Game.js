@@ -1,6 +1,6 @@
 import { saveGame } from '../../redux/reducers/gameInfo-reducer';
 import store from '../../redux/store';
-import { direction, speedUp } from './controls';
+import { direction, speedUp, magicAtk } from './controls';
 import { render } from './render';
 import { update } from './update';
 // let log = true;
@@ -11,12 +11,13 @@ let save = false;
 export let pause;
 
 export const Game = (GS, camera, screen, data) => {
-  update(camera, data, direction, speedUp);
+  update(camera, data, direction, speedUp, magicAtk);
   render(GS, camera, screen, data);
   // if (log) {
-  //   console.log(data.player);
-  //   console.log(data.apple);
-  //   log = false;
+    // console.log(data.player);
+    // console.log(data.apple);
+    console.log(magicAtk);
+    // log = false;
   // }
   if (save) {
     window.cancelAnimationFrame(id);

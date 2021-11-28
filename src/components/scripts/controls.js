@@ -1,5 +1,6 @@
 export let direction;
 export let speedUp;
+export let magicAtk;
 
 export const changeDirection = (e) => {
     switch(e.code) {
@@ -22,6 +23,9 @@ export const changeDirection = (e) => {
             speedUp = true;
             setTimeout(() => {speedUp = false}, 20);
             break;
+        case 'KeyQ':
+            magicAtk = true;
+            break;
         default:
             break;
     }
@@ -29,5 +33,13 @@ export const changeDirection = (e) => {
 
 window.addEventListener('keydown', changeDirection);
 window.addEventListener('keyup', (e) => {
-    if(e.code === 'KeyE') speedUp = false;
+    switch(e.code) {
+        case 'KeyE':
+            speedUp = false;
+            break;
+        case 'KeyQ':
+            magicAtk = false;
+            break;
+    }
+        
 });

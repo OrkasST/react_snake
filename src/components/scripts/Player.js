@@ -29,6 +29,7 @@ export class Player {
     this.mana = maxMana;
     this.armor = 1;
     this.attack = 1;
+    this.magicAttack = 1;
     this.speedUpAvailable = true;
     this.mealPoints = mealPoints;
     this.pointsToGrow = 2;
@@ -36,8 +37,20 @@ export class Player {
     this.head_img = null;
     this.body_img = null;
     this.tail_img = null;
+    this.magic = {
+      body : [],
+      ball: {
+        img : null,
+        speed : 8 * GS,
+        time : 80,
+        damage : this.magicAttack
+      },
+      size : 64,
+      control: false
+    }
     this.UpgradeAtt = true;
     this.UpgardeArm = true;
+    this.UpgardeMag = true;
     this.spawnPoint = {
       x: 0,
       y: 0
@@ -49,7 +62,7 @@ export class Player {
     this.deaths = 0;
   }
 
-  update(camera, direction, chknObjects, speed) {
+  update(camera, direction, chknObjects, speed, magicAtk) {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
@@ -118,12 +131,19 @@ export class Player {
       }
     }
     this.body.forEach((part, i) => this.bindImages(part, i));
+    if (magicAtk && this.magic.control === false){
+      this.magic.control = true;
+      this.newMagicAttack('ball');
+    }
+    if (!magicAtk) this.magic.control = false;
+    if (this.magic.body.length > 0) this.updateMagic(chknObjects);
   }
 
-  setImages(headImg, bodyImg, tailImg) {
+  setImages(headImg, bodyImg, tailImg, magicBallImg) {
     this.head_img = headImg;
     this.body_img = bodyImg;
     this.tail_img = tailImg;
+    this.magic.ball.img = magicBallImg;
   }
 
   bindImages(part, i) {
@@ -172,6 +192,13 @@ export class Player {
             this.upgradeArmor();
             this.availableLength -= 4;
             this.UpgradeArm = false;
+          }
+        } else if (clsnObj.type === 'magicUpgrade') {
+          clsnObj.body.splice(i, 1);
+          if (this.availableLength > 1) {
+            this.upgradeMagic();
+            this.availableLength -= 4;
+            this.UpgradeMag = false;
           }
         } else if (clsnObj.type === 'enemy') {
           obj.health -= Math.max(0, (this.attack - clsnObj.armor));
@@ -226,6 +253,71 @@ export class Player {
     this.body = loadedBody;
   }
 
+  newMagicAttack(type) {
+    this.magic.body.push({
+      type: type,
+      image: this.magic[type].img,
+      x: this.body[0].x + (this.size/2) - (this.magic.size/2),
+      y: this.body[0].y + (this.size/2) - (this.magic.size/2),
+      direction: this.body[0].direction,
+      time: this.magic[type].time
+    })
+  }
+ 
+  updateMagic(chknObjects) {
+    this.magic.body.forEach( (el, i) => {
+      let speed = this.magic[el.type].speed;
+      switch (el.direction) {
+        case 'up' :
+          el.y -= speed;
+          break;
+        case 'down' :
+          el.y += speed;
+          break;
+        case 'left' :
+          el.x -= speed;
+          break;
+        case 'right' :
+          el.x += speed;
+          break;
+      }
+      el.time--;
+      if(el.time <= 0) {
+        this.magic.body.splice(i, 1);
+      }
+    });
+    this.chkMagicCollisions(chknObjects);
+  }
+
+  chkMagicCollisions(chknObjects) {
+    let size = this.magic.size;
+    chknObjects.forEach(clsnObj => {
+      clsnObj.body.forEach((obj, i) => {
+        this.magic.body.forEach( (el, ei) => {
+          if (
+            el.x + 16 <= obj.x + (clsnObj.width || clsnObj.size) &&
+            el.x + size - 16 >= obj.x &&
+            el.y + 16 <= obj.y + (clsnObj.height || clsnObj.size) &&
+            el.y + size - 16 >= obj.y
+          ) {
+            this.magic.body.splice(ei, 1);
+            if (clsnObj.type === 'enemy') {
+              obj.health -= Math.max(0, (this.magic[el.type].damage - clsnObj.armor));
+              if (obj.health <= 0) {
+                clsnObj.body.splice(i, 1);
+                //this.mealPoints += clsnObj.health/2;
+                // grow = true;
+                // if (this.health < this.maxHealth) {
+                //   this.restoreHealth(Math.floor(clsnObj.health / 3));
+                // }
+              }     
+            }
+          }
+        });
+      });
+    });
+  }
+
   speedUp() {
     if (this.speedUpAvailable) {
       let defaultSpeed = this.speed;
@@ -257,6 +349,9 @@ export class Player {
   }
   upgradeArmor() {
     this.armor++;
+  }
+  upgradeMagic() {
+    this.magicAttack++;
   }
 
 }
