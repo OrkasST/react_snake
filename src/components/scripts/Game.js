@@ -16,7 +16,7 @@ export const Game = (GS, camera, screen, data) => {
   // if (log) {
     // console.log(data.player);
     // console.log(data.apple);
-    console.log(magicAtk);
+    // console.log(magicAtk);
     // log = false;
   // }
   if (save) {
@@ -31,7 +31,7 @@ export const Game = (GS, camera, screen, data) => {
       data.ant.body,
       data.bigAnt.body,
       data.scorpio.body
-    ))
+    ));
     screen.clear();
     save = false;
   } else {

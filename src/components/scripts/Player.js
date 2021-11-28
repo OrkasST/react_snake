@@ -1,4 +1,5 @@
 import { updateApples, updateDeaths } from '../../redux/reducers/statistic-reducer';
+import { updateLevel, updateAttack, updateArmor, updateMaxHP, updateMaxMP, updateMagicAttack, updateConcentration } from '../../redux/reducers/playerInfo-reducer';
 import store from '../../redux/store';
 
 export class Player {
@@ -29,6 +30,7 @@ export class Player {
     this.mana = maxMana;
     this.armor = 1;
     this.attack = 1;
+    this.level = 1;
     this.magicAttack = 1;
     this.speedUpAvailable = true;
     this.mealPoints = mealPoints;
@@ -45,7 +47,7 @@ export class Player {
         time : 80,
         damage : this.magicAttack
       },
-      size : 64,
+      size : 64 * GS,
       control: false
     }
     this.UpgradeAtt = true;
@@ -234,6 +236,7 @@ export class Player {
     camera.y = 0;
     this.deaths += 1;
     store.dispatch(updateDeaths(this.deaths));
+    store.dispatch(updateMaxHP(this.maxHealth));
   }
 
   isAbleToGrow() {
@@ -244,6 +247,7 @@ export class Player {
         : Math.floor(this.pointsToGrow * 1.2)
       this.availableLength += 4;
       this.maxHealth++;
+      store.dispatch(updateMaxHP(this.maxHealth));
       this.isAbleToGrow();
     }
     return false;
@@ -262,6 +266,8 @@ export class Player {
       direction: this.body[0].direction,
       time: this.magic[type].time
     })
+
+    console.log(this.magic);
   }
  
   updateMagic(chknObjects) {
@@ -346,12 +352,23 @@ export class Player {
 
   upgradeAttack() {
     this.attack++;
+    this.level++;
+    store.dispatch(updateAttack(this.attack));
+    store.dispatch(updateLevel(this.level));
   }
   upgradeArmor() {
     this.armor++;
+    this.level++;
+
+    store.dispatch(updateArmor(this.armor));
+    store.dispatch(updateLevel(this.level));
   }
   upgradeMagic() {
     this.magicAttack++;
+    this.level++;
+
+    store.dispatch(updateMagicAttack(this.magicAttack));
+    store.dispatch(updateLevel(this.level));
   }
 
 }
