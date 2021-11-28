@@ -54,6 +54,12 @@ const Button = styled.button`
                     right: -35%;
                     transform: translateX(-50%);
                 `
+            } else if(props.text === 'magicAtk') {
+                return css`
+                    top: -20%;
+                    left: 0%;
+                    transform: translateX(-50%);
+                `
             }
         }
     };

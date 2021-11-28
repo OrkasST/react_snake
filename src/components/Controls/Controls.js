@@ -29,6 +29,11 @@ const Controls = (props) => {
         code='KeyE'
         text='speedUp'
       />
+      <ControlButton
+        changeDirection={props.changeDirection}
+        code='KeyQ'
+        text='magicAtk'
+      />
     </ControlsWrapper>
   )
 }
