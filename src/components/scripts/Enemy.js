@@ -1,7 +1,8 @@
+import { AI } from "./AI/AI";
 import { Cube } from "./Cube";
 
 export class Enemy extends Cube {
-    constructor({GS, color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40, name}) {
+    constructor({GS, color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40, name, speed = 2}) {
         super({GS : GS,
             color : color,
             health : health,
@@ -13,6 +14,7 @@ export class Enemy extends Cube {
         this.attack = attack;
         this.width = width * GS;
         this.height = height * GS;
+        this.speed = speed;
     }
 
     spawnEnemy(name = 'initial', x, y) {
@@ -27,11 +29,20 @@ export class Enemy extends Cube {
                     + Math.floor(
                         Math.random() * this.spawnPoint[name].diameter - (this.spawnPoint[name].diameter / 2)
                     ) || y,
-                health: this.health
+                health: this.health,
+                direction: 'stop',
+                speed : this.speed,
+                mind : new AI()
             });
             this.spawnPoint[name].toSpawn = this.spawnPoint[name].speed;
         } else if (this.spawnPoint[name].toSpawn > 0) {
             this.spawnPoint[name].toSpawn--;
         }
+    }
+
+    update() {
+        this.body.forEach(ent => {
+            ent.mind.move(ent);
+        });
     }
 }

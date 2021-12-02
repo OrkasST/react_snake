@@ -45,7 +45,7 @@ export class Player {
         img : null,
         speed : 8 * GS,
         time : 80,
-        damage : this.magicAttack
+        damageFactor : 1
       },
       size : 64 * GS,
       control: false
@@ -308,7 +308,7 @@ export class Player {
           ) {
             this.magic.body.splice(ei, 1);
             if (clsnObj.type === 'enemy') {
-              obj.health -= Math.max(0, (this.magic[el.type].damage - clsnObj.armor));
+              obj.health -= Math.max(0, ((this.magicAttack * this.magic[el.type].damageFactor) - clsnObj.armor));
               if (obj.health <= 0) {
                 clsnObj.body.splice(i, 1);
                 //this.mealPoints += clsnObj.health/2;
