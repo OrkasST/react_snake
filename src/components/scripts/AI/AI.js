@@ -1,9 +1,10 @@
 export class AI {
-    constructor () {
+    constructor (GS) {
         // this.x = object.x;
         // this.y = object.y;
         // this.direction = 'stop';
         this.stepsCount = 0;
+        this.GS = GS;
     }
 
     move(ent) {
@@ -16,16 +17,16 @@ export class AI {
 
         switch(ent.direction) {
             case 'up':
-                ent.y -= ent.speed;
+                ent.y -= (ent.speed * this.GS);
                 break;
             case 'right':
-                ent.x += ent.speed;
+                ent.x += (ent.speed * this.GS);
                 break;
             case 'down':
-                ent.y += ent.speed;
+                ent.y += (ent.speed * this.GS);
                 break;
             case 'left':
-                ent.x -= ent.speed;
+                ent.x -= (ent.speed * this.GS);
                 break;
             default:
                 break;

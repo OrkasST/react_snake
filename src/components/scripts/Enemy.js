@@ -32,7 +32,7 @@ export class Enemy extends Cube {
                 health: this.health,
                 direction: 'stop',
                 speed : this.speed,
-                mind : new AI()
+                mind : new AI(GS)
             });
             this.spawnPoint[name].toSpawn = this.spawnPoint[name].speed;
         } else if (this.spawnPoint[name].toSpawn > 0) {
