@@ -1,8 +1,8 @@
-import { AI } from "./AI/AI";
+import { Dummy } from "./AI/Dummy";
 import { Cube } from "./Cube";
 
 export class Enemy extends Cube {
-    constructor({GS, color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40, name, speed = 2}) {
+    constructor({GS, color = '#000000', health = 5, attack = 1.5, armor = 0, width = 20, height = 40, name, speed = 2, AIType = 'dummy'}) {
         super({GS : GS,
             color : color,
             health : health,
@@ -15,6 +15,8 @@ export class Enemy extends Cube {
         this.width = width * GS;
         this.height = height * GS;
         this.speed = speed;
+        this.GS = GS;
+        this.AIType = AIType;
     }
 
     spawnEnemy(name = 'initial', x, y) {
@@ -32,7 +34,7 @@ export class Enemy extends Cube {
                 health: this.health,
                 direction: 'stop',
                 speed : this.speed,
-                mind : new AI(GS)
+                mind : new Dummy(this.GS)
             });
             this.spawnPoint[name].toSpawn = this.spawnPoint[name].speed;
         } else if (this.spawnPoint[name].toSpawn > 0) {

@@ -8,13 +8,7 @@ export class AI {
     }
 
     move(ent) {
-        if (this.stepsCount <= 0) {
-            this.chooseDirection(ent);
-            this.chooseStepsCount();
-        } else {
-            this.stepsCount--;
-        }
-
+        this.prepare(ent);
         switch(ent.direction) {
             case 'up':
                 ent.y -= (ent.speed * this.GS);
@@ -31,6 +25,16 @@ export class AI {
             default:
                 break;
         }
+    }
+
+    prepare(ent) {
+        if (this.stepsCount <= 0) {
+            this.chooseDirection(ent);
+            this.chooseStepsCount();
+        } else {
+            this.stepsCount--;
+        }
+
     }
 
     chooseDirection(ent) {
