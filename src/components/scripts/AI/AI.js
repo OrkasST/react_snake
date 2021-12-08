@@ -7,8 +7,8 @@ export class AI {
         this.GS = GS;
     }
 
-    move(ent) {
-        this.prepare(ent);
+    move(ent, player) {
+        this.prepare(ent, player);
         switch(ent.direction) {
             case 'up':
                 ent.y -= (ent.speed * this.GS);

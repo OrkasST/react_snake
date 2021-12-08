@@ -5,6 +5,7 @@ export const render = (GS, camera, screen, data) => {
     screen.draw(GS, camera, data.ant);
     screen.draw(GS, camera, data.bigAnt);
     screen.draw(GS, camera, data.scorpio);
+    screen.draw(GS, camera, data.souls);
     screen.draw(GS, camera, data.player);
     screen.draw(GS, camera, data.player.magic);
     screen.draw(GS, camera, data.attackUpgrade);

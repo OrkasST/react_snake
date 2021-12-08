@@ -2,7 +2,12 @@ export const update = (camera, data, direction, speedUp, magicAtk) => {
     data.ant.update();
     data.bigAnt.update();
     data.scorpio.update();
-    data.player.update(camera, direction, [data.apple, data.ant, data.bigAnt, data.scorpio, data.attackUpgrade, data.armorUpgrade, data.magicUpgrade], speedUp, magicAtk);
+    data.player.update(
+      camera, direction, 
+      [data.apple, data.ant, data.bigAnt, data.scorpio, data.attackUpgrade, data.armorUpgrade, data.magicUpgrade, data.souls],
+      speedUp, magicAtk, data.souls
+    );
+
     if(data.player.availableLength > 10) {
       if (data.attackUpgrade.body.length === 0) data.attackUpgrade.spawnCube();
       if (data.armorUpgrade.body.length === 0) data.armorUpgrade.spawnCube();

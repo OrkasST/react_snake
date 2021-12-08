@@ -9,6 +9,7 @@ import { Food } from './Apple';
 import { Enemy } from './Enemy';
 import { Upgrade } from './Upgrade';
 import { Spawner } from './spawner';
+import { Soul } from './Soul';
 
 const start = (Cnv, WorldMap, data) => {
   let viewArea = Cnv;
@@ -83,6 +84,8 @@ const start = (Cnv, WorldMap, data) => {
     type: 'magicUpgrade'
   });
 
+  let souls = new Soul(GlobalScale);
+
   //UI
   let ui = new UI(screen.width);
     
@@ -99,6 +102,7 @@ const start = (Cnv, WorldMap, data) => {
     ant: '/images/ant.png',
     bigAnt: '/images/big-ant.png',
     scorpio: '/images/scorpio.png',
+    soul: '/images/Soul.png',
 
     //player
     player_head: '/images/snake-head.png',
@@ -117,6 +121,7 @@ const start = (Cnv, WorldMap, data) => {
     ant.setImage(images['ant']);
     bigAnt.setImage(images['bigAnt']);
     scorpio.setImage(images['scorpio']);
+    souls.setImage(images['soul']);
     attackUpgrade.setImage(images['attackUp']);
     armorUpgrade.setImage(images['armorUp']);
     player.setImages(images['player_head'], images['player_body'], images['player_tail'], images['magic_ball']);
@@ -217,7 +222,7 @@ const start = (Cnv, WorldMap, data) => {
     console.log(ant.GS);
 
     setTimeout(()=>{
-      Game(GlobalScale, camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade, magicUpgrade});
+      Game(GlobalScale, camera, screen, {player, apple, ui, map, ant, bigAnt, scorpio, attackUpgrade, armorUpgrade, magicUpgrade, souls});
     }, 2000);
   }).catch(error => {
     console.error(error);

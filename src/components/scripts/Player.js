@@ -64,7 +64,7 @@ export class Player {
     this.deaths = 0;
   }
 
-  update(camera, direction, chknObjects, speed, magicAtk) {
+  update(camera, direction, chknObjects, speed, magicAtk, souls) {
     let Head = this.body[0];
     let x = Head.x;
     let y = Head.y;
@@ -138,7 +138,7 @@ export class Player {
       this.newMagicAttack('ball');
     }
     if (!magicAtk) this.magic.control = false;
-    if (this.magic.body.length > 0) this.updateMagic(chknObjects);
+    if (this.magic.body.length > 0) this.updateMagic(chknObjects, souls);
   }
 
   setImages(headImg, bodyImg, tailImg, magicBallImg) {
@@ -182,6 +182,13 @@ export class Player {
           if (this.health < this.maxHealth) {
             this.restoreHealth(clsnObj.health);
           }
+        } else if (clsnObj.type === 'soul') {
+          clsnObj.body.splice(i, 1);
+          grow = true;
+          // this.applesEaten++;
+          // store.dispatch(updateApples(this.applesEaten));
+          this.mealPoints += obj.health;
+
         } else if (clsnObj.type === 'attackUpgrade') {
           clsnObj.body.splice(i, 1);
           if (this.availableLength > 1) {
@@ -270,7 +277,7 @@ export class Player {
     console.log(this.magic);
   }
  
-  updateMagic(chknObjects) {
+  updateMagic(chknObjects, souls) {
     this.magic.body.forEach( (el, i) => {
       let speed = this.magic[el.type].speed;
       switch (el.direction) {
@@ -292,10 +299,10 @@ export class Player {
         this.magic.body.splice(i, 1);
       }
     });
-    this.chkMagicCollisions(chknObjects);
+    this.chkMagicCollisions(chknObjects, souls);
   }
 
-  chkMagicCollisions(chknObjects) {
+  chkMagicCollisions(chknObjects, souls) {
     let size = this.magic.size;
     chknObjects.forEach(clsnObj => {
       clsnObj.body.forEach((obj, i) => {
@@ -310,6 +317,7 @@ export class Player {
             if (clsnObj.type === 'enemy') {
               obj.health -= Math.max(0, ((this.magicAttack * this.magic[el.type].damageFactor) - clsnObj.armor));
               if (obj.health <= 0) {
+                souls.spawnSoul(obj.x, obj.y, Math.floor(clsnObj.health/2));
                 clsnObj.body.splice(i, 1);
                 //this.mealPoints += clsnObj.health/2;
                 // grow = true;
