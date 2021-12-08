@@ -53,7 +53,10 @@ const start = (Cnv, WorldMap, data) => {
     armor: 2, 
     width: 40, 
     height: 80,
-    name: 'bigAnt'
+    name: 'bigAnt',
+    AIType: 'ordinary',
+    speed: 2.5,
+    minSteps: 5
   });
   bigAnt.body = data.bigAnts;
 

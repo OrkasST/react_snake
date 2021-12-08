@@ -120,6 +120,7 @@ export class Player {
         sy: sy
       });
     }
+
     if (!chknObjects.every((object, i) => {
       return !this.checkForCollision(this.body[0], this.size, object, camera, i)
     })
@@ -165,6 +166,7 @@ export class Player {
 
   checkForCollision(head, size, clsnObj, camera, i) {
     let grow = false;
+    if (clsnObj.type === 'enemy') this.checkTail(clsnObj, camera);
     clsnObj.body.forEach((obj, i) => {
       if (
         head.x <= obj.x + (clsnObj.width || clsnObj.size) &&
@@ -211,7 +213,7 @@ export class Player {
           }
         } else if (clsnObj.type === 'enemy') {
           obj.health -= Math.max(0, (this.attack - clsnObj.armor));
-          this.health -= Math.max(0, (clsnObj.attack - this.armor));
+          // this.health -= Math.max(0, (clsnObj.attack - this.armor));
           if (obj.health <= 0) {
             clsnObj.body.splice(i, 1);
             this.mealPoints += clsnObj.health;
@@ -230,6 +232,27 @@ export class Player {
       }
     });
     return grow;
+  }
+
+  checkTail(enemy, camera) {
+    enemy.body.forEach((ent) => {
+      this.body.forEach( (part, i) => {
+        if (i > 0) {
+          if (
+            part.x <= ent.x + (enemy.width) &&
+            part.x + this.size >= ent.x &&
+            part.y <= ent.y + (enemy.height) &&
+            part.y + this.size >= ent.y
+          ) {
+            this.health -= Math.max(0, (enemy.attack - this.armor));
+            // obj.health -= Math.max(0, (this.attack - clsnObj.armor));
+              if (this.health <= 0) {
+                this.Death(camera);
+              }
+          }
+        }
+      })
+    });
   }
 
   Death(camera) {

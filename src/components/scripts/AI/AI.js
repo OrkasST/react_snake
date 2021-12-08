@@ -1,10 +1,11 @@
 export class AI {
-    constructor (GS) {
+    constructor (GS, min = 0) {
         // this.x = object.x;
         // this.y = object.y;
         // this.direction = 'stop';
         this.stepsCount = 0;
         this.GS = GS;
+        this.min = min;
     }
 
     move(ent, player) {
@@ -59,7 +60,7 @@ export class AI {
     }
 
     chooseStepsCount() {
-        let ind = Math.floor(Math.random()*15);
+        let ind = Math.floor(Math.random()*15) + this.min;
         this.stepsCount = ind;
     }
 }

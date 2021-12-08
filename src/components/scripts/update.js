@@ -1,7 +1,7 @@
 export const update = (camera, data, direction, speedUp, magicAtk) => {
-    data.ant.update();
-    data.bigAnt.update();
-    data.scorpio.update();
+    data.ant.update(data.player);
+    data.bigAnt.update(data.player);
+    data.scorpio.update(data.player);
     data.player.update(
       camera, direction, 
       [data.apple, data.ant, data.bigAnt, data.scorpio, data.attackUpgrade, data.armorUpgrade, data.magicUpgrade, data.souls],
