@@ -1,7 +1,7 @@
 import React from 'react';
-import Controls from '../Controls/Controls';
-import { changeDirection } from '../scripts/controls';
-import ButtonLink from '../../btn-link';
+import Controls from '../../components/Controls/Controls';
+import { changeDirection } from '../../components/scripts/controls';
+import ButtonLink from '../../components/ButtonLink/ButtonLink.style';
 import { Route } from 'react-router-dom';
 import Menu from './Menu/Menu';
 //import Button from '../Controls/controlButton/button_style';

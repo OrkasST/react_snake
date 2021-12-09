@@ -4,7 +4,7 @@ import GamePage from './components/GamePage/GamePage';
 import start from './components/scripts/start';
 import { changeDirection } from './components/scripts/controls';
 import { Route } from 'react-router-dom';
-import ButtonLink from './btn-link';
+import ButtonLink from './components/ButtonLink/ButtonLink.style';
 import { SAVE } from './components/scripts/Game';
 
 const App = (props) => {

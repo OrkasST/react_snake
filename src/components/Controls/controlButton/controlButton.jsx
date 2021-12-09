@@ -1,9 +1,8 @@
-import Button from "./button_style";
+import Button from "./ControlButton.style";
 
 const ControlButton = (props) => {
   return (
-    <Button 
-      control
+    <Button control
       onClick={ () => {
         props.changeDirection({code: props.code});
       }}

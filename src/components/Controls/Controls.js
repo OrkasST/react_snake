@@ -1,7 +1,8 @@
-import ControlButton from './controlButton/controlButton';
-import ControlsWrapper from './controls_style';
+import ControlButton from './ControlButton/ControlButton';
+import ControlsWrapper from './Controls.style';
 
 const Controls = (props) => {
+  
   return (
     <ControlsWrapper>
       <ControlButton
