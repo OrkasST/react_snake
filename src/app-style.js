@@ -1,37 +1,37 @@
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  .App {
+    text-align: center;
     overflow: hidden;
+  }
 
-    * {
-        padding: 0;
-        margin: 0;
-    }
+  .screen {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    border: #000 solid 1px;
+    background-color: #000;
+  }
+  .gameUI {
+    position: absolute;
+    z-index: 3;
+    top: 2rem;
+    right: 3rem;
+  }
 
-    .App {
-        text-align: center;
-        overflow: hidden;
-    }
-
-    .screen {
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%);
-        border: #000 solid 1px;
-        background-color: #000;
-    }
-    .gameUI {
-        position: absolute;
-        z-index: 3;
-        top: 2rem;
-        right: 3rem;
-    }
-
-    ._hidden {
-        display: none;
-    }
-`
+  ._hidden {
+    display: none;
+  }
+`;
 export default Wrapper;
